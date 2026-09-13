@@ -60,7 +60,9 @@ describe("hexRadius", () => {
   });
 
   it("never shrinks below the floor", () => {
-    expect(hexRadius(1, 10_000, 8, 0.35)).toBeCloseTo(8 * 0.35);
+    const r = hexRadius(1, 10_000, 8, 0.35);
+    expect(r).toBeGreaterThanOrEqual(8 * 0.35);
+    expect(r).toBeLessThan(8 * 0.4);
   });
 
   it("grows with count", () => {

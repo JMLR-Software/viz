@@ -27,8 +27,8 @@ export function efficiencyColor(delta: number, limit: number): string {
   return interpolateRdBu(1 - t);
 }
 
-/** In efficiency mode, size carries volume: radius grows linearly with count, never below the floor. */
+/** In efficiency mode, size carries volume: area grows with count, never below the floor. */
 export function hexRadius(count: number, cap: number, gridRadius: number, floor: number): number {
-  const t = Math.min(1, count / Math.max(1, cap));
+  const t = Math.min(1, Math.sqrt(count) / Math.sqrt(Math.max(1, cap)));
   return gridRadius * (floor + (1 - floor) * t);
 }
