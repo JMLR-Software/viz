@@ -1,0 +1,39 @@
+{
+  "name": "allstar-shots",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:web": "rm -rf public/js && node esbuild.mjs",
+    "dev": "pnpm build:web && wrangler dev --port 8787",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "typecheck": "tsc --noEmit",
+    "data:setup": "/opt/homebrew/bin/python3.12 -m venv scripts/.venv && scripts/.venv/bin/pip install -q -r scripts/requirements.txt",
+    "data:fetch": "scripts/.venv/bin/python scripts/fetch_shots.py",
+    "data:test": "scripts/.venv/bin/python -m pytest scripts -q",
+    "deploy": "pnpm test && NODE_ENV=production pnpm build:web && wrangler deploy"
+  },
+  "packageManager": "pnpm@10.17.1",
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "workerd"]
+  },
+  "dependencies": {
+    "d3-array": "^3.2.4",
+    "d3-hexbin": "^0.2.2",
+    "d3-scale-chromatic": "^3.1.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/d3-array": "^3.2.1",
+    "@types/d3-hexbin": "^0.2.5",
+    "@types/d3-scale-chromatic": "^3.0.3",
+    "@types/node": "^22.20.2",
+    "@vitest/coverage-istanbul": "^3.2.7",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2",
+    "vitest": "^3.2.7",
+    "wrangler": "^4.131.1"
+  }
+}
