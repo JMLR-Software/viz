@@ -5,6 +5,7 @@
 export const COURT = {
   baselineY: -52.5,
   backboardY: -12.5,
+  backboardHalfWidth: 30,
   rimRadius: 7.5,
   restrictedRadius: 40,
   laneHalfWidth: 80,

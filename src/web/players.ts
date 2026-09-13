@@ -87,7 +87,7 @@ export function renderPlayers(
   onSelect: (s: Selection) => void,
 ): void {
   list.replaceChildren();
-  list.appendChild(row("all", "All All-Stars", "28 players", pool, selected, onSelect, null));
+  list.appendChild(row("all", "All All-Stars", `${players.length} players`, pool, selected, onSelect, null));
   for (const p of sortPlayers(players, season, sort)) {
     list.appendChild(row(p.id, p.name, p.team, p[season], selected, onSelect, HEADSHOT_URL(p.id)));
   }

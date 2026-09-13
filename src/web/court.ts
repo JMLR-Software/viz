@@ -57,7 +57,7 @@ export function drawCourt(svg: SVGSVGElement, width: number): void {
 
   // Rim, backboard, restricted area.
   circle(0, 0, COURT.rimRadius);
-  line(-30, COURT.backboardY, 30, COURT.backboardY);
+  line(-COURT.backboardHalfWidth, COURT.backboardY, COURT.backboardHalfWidth, COURT.backboardY);
   arc(-COURT.restrictedRadius, 0, COURT.restrictedRadius, 0, COURT.restrictedRadius);
 
   // Three-point line: two corners and the arc between them.

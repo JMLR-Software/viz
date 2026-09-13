@@ -7,6 +7,11 @@ describe("court geometry", () => {
     expect(COURT_HEIGHT).toBe(COURT.halfCourtY - COURT.baselineY);
   });
 
+  it("keeps the backboard narrower than the lane", () => {
+    expect(COURT.backboardHalfWidth).toBeGreaterThan(0);
+    expect(COURT.backboardHalfWidth).toBeLessThan(COURT.laneHalfWidth);
+  });
+
   it("keeps the aspect ratio", () => {
     expect(svgHeight(500)).toBeCloseTo(470);
     expect(svgHeight(250)).toBeCloseTo(235);
