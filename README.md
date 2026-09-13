@@ -2,7 +2,7 @@
 
 Where the 2026 NBA All-Stars shot from during the 2025-26 season. A half-court hex heat map per player (or for the whole pool), by frequency or by efficiency against the All-Star average, with a zone table underneath.
 
-**Status (2026-09-13):** in development.
+**Status (2026-09-13):** deployed to https://shots.jmlr.dev.
 
 Live: https://shots.jmlr.dev
 
