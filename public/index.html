@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>All-Star Shots 2025-26</title>
+    <meta name="description" content="Where the 2026 NBA All-Stars shot from during the 2025-26 season." />
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/js/index.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>All-Star Shots <span class="season">2025-26</span></h1>
+      <label>Season
+        <select id="season">
+          <option value="regular" selected>Regular Season</option>
+          <option value="playoffs">Playoffs</option>
+        </select>
+      </label>
+    </header>
+
+    <main>
+      <aside>
+        <label class="sort">Sort
+          <select id="sort">
+            <option value="fga" selected>Attempts</option>
+            <option value="pct">FG%</option>
+          </select>
+        </label>
+        <ul id="players"></ul>
+      </aside>
+
+      <section class="chart">
+        <p id="summary"></p>
+        <div class="controls">
+          <label>Show
+            <select id="mode">
+              <option value="frequency" selected>Frequency</option>
+              <option value="efficiency">Efficiency vs All-Stars</option>
+            </select>
+          </label>
+          <label>Shots
+            <select id="result">
+              <option value="all" selected>All</option>
+              <option value="made">Made</option>
+              <option value="missed">Missed</option>
+            </select>
+          </label>
+        </div>
+        <div class="court-wrap">
+          <svg id="court" role="img" aria-label="Shot chart"></svg>
+          <div id="tooltip" hidden></div>
+        </div>
+        <p id="legend"></p>
+        <p id="empty" hidden></p>
+        <p id="error" hidden></p>
+        <table id="zones"></table>
+      </section>
+    </main>
+
+    <footer id="footer"></footer>
+  </body>
+</html>
