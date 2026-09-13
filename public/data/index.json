@@ -1,0 +1,497 @@
+{
+ "season": "2025-26",
+ "generatedAt": "2026-09-13T04:31:47Z",
+ "zones": [
+  "Restricted Area",
+  "In The Paint (Non-RA)",
+  "Mid-Range",
+  "Left Corner 3",
+  "Right Corner 3",
+  "Above the Break 3"
+ ],
+ "players": [
+  {
+   "id": 1627759,
+   "name": "Jaylen Brown",
+   "team": "Boston Celtics",
+   "conference": "East",
+   "selection": "starter",
+   "regular": {
+    "fga": 1543,
+    "fgm": 736
+   },
+   "playoffs": {
+    "fga": 143,
+    "fgm": 65
+   }
+  },
+  {
+   "id": 1630178,
+   "name": "Tyrese Maxey",
+   "team": "Philadelphia 76ers",
+   "conference": "East",
+   "selection": "starter",
+   "regular": {
+    "fga": 1501,
+    "fgm": 694
+   },
+   "playoffs": {
+    "fga": 211,
+    "fgm": 96
+   }
+  },
+  {
+   "id": 1628973,
+   "name": "Jalen Brunson",
+   "team": "New York Knicks",
+   "conference": "East",
+   "selection": "starter",
+   "regular": {
+    "fga": 1475,
+    "fgm": 689
+   },
+   "playoffs": {
+    "fga": 413,
+    "fgm": 192
+   }
+  },
+  {
+   "id": 1629029,
+   "name": "Luka Dončić",
+   "team": "Los Angeles Lakers",
+   "conference": "West",
+   "selection": "starter",
+   "regular": {
+    "fga": 1457,
+    "fgm": 693
+   },
+   "playoffs": {
+    "fga": 0,
+    "fgm": 0
+   }
+  },
+  {
+   "id": 1628378,
+   "name": "Donovan Mitchell",
+   "team": "Cleveland Cavaliers",
+   "conference": "East",
+   "selection": "reserve",
+   "regular": {
+    "fga": 1403,
+    "fgm": 678
+   },
+   "playoffs": {
+    "fga": 379,
+    "fgm": 171
+   }
+  },
+  {
+   "id": 201142,
+   "name": "Kevin Durant",
+   "team": "Houston Rockets",
+   "conference": "West",
+   "selection": "reserve",
+   "regular": {
+    "fga": 1376,
+    "fgm": 716
+   },
+   "playoffs": {
+    "fga": 12,
+    "fgm": 7
+   }
+  },
+  {
+   "id": 1627750,
+   "name": "Jamal Murray",
+   "team": "Denver Nuggets",
+   "conference": "West",
+   "selection": "reserve",
+   "regular": {
+    "fga": 1357,
+    "fgm": 654
+   },
+   "playoffs": {
+    "fga": 127,
+    "fgm": 45
+   }
+  },
+  {
+   "id": 1628983,
+   "name": "Shai Gilgeous-Alexander",
+   "team": "Oklahoma City Thunder",
+   "conference": "West",
+   "selection": "starter",
+   "regular": {
+    "fga": 1321,
+    "fgm": 731
+   },
+   "playoffs": {
+    "fga": 285,
+    "fgm": 132
+   }
+  },
+  {
+   "id": 1627742,
+   "name": "Brandon Ingram",
+   "team": "Toronto Raptors",
+   "conference": "East",
+   "selection": "replacement",
+   "regular": {
+    "fga": 1288,
+    "fgm": 614
+   },
+   "playoffs": {
+    "fga": 58,
+    "fgm": 19
+   }
+  },
+  {
+   "id": 202695,
+   "name": "Kawhi Leonard",
+   "team": "LA Clippers",
+   "conference": "West",
+   "selection": "commissioner",
+   "regular": {
+    "fga": 1258,
+    "fgm": 635
+   },
+   "playoffs": {
+    "fga": 0,
+    "fgm": 0
+   }
+  },
+  {
+   "id": 1630162,
+   "name": "Anthony Edwards",
+   "team": "Minnesota Timberwolves",
+   "conference": "West",
+   "selection": "reserve",
+   "regular": {
+    "fga": 1231,
+    "fgm": 602
+   },
+   "playoffs": {
+    "fga": 180,
+    "fgm": 77
+   }
+  },
+  {
+   "id": 1630552,
+   "name": "Jalen Johnson",
+   "team": "Atlanta Hawks",
+   "conference": "East",
+   "selection": "reserve",
+   "regular": {
+    "fga": 1228,
+    "fgm": 600
+   },
+   "playoffs": {
+    "fga": 92,
+    "fgm": 40
+   }
+  },
+  {
+   "id": 1626164,
+   "name": "Devin Booker",
+   "team": "Phoenix Suns",
+   "conference": "West",
+   "selection": "reserve",
+   "regular": {
+    "fga": 1197,
+    "fgm": 546
+   },
+   "playoffs": {
+    "fga": 63,
+    "fgm": 29
+   }
+  },
+  {
+   "id": 1630595,
+   "name": "Cade Cunningham",
+   "team": "Detroit Pistons",
+   "conference": "East",
+   "selection": "starter",
+   "regular": {
+    "fga": 1189,
+    "fgm": 548
+   },
+   "playoffs": {
+    "fga": 294,
+    "fgm": 127
+   }
+  },
+  {
+   "id": 1627783,
+   "name": "Pascal Siakam",
+   "team": "Indiana Pacers",
+   "conference": "East",
+   "selection": "reserve",
+   "regular": {
+    "fga": 1155,
+    "fgm": 559
+   },
+   "playoffs": {
+    "fga": 0,
+    "fgm": 0
+   }
+  },
+  {
+   "id": 203999,
+   "name": "Nikola Jokić",
+   "team": "Denver Nuggets",
+   "conference": "West",
+   "selection": "starter",
+   "regular": {
+    "fga": 1132,
+    "fgm": 644
+   },
+   "playoffs": {
+    "fga": 121,
+    "fgm": 54
+   }
+  },
+  {
+   "id": 1630567,
+   "name": "Scottie Barnes",
+   "team": "Toronto Raptors",
+   "conference": "East",
+   "selection": "reserve",
+   "regular": {
+    "fga": 1123,
+    "fgm": 569
+   },
+   "playoffs": {
+    "fga": 116,
+    "fgm": 59
+   }
+  },
+  {
+   "id": 1630578,
+   "name": "Alperen Şengün",
+   "team": "Houston Rockets",
+   "conference": "West",
+   "selection": "replacement",
+   "regular": {
+    "fga": 1123,
+    "fgm": 583
+   },
+   "playoffs": {
+    "fga": 99,
+    "fgm": 46
+   }
+  },
+  {
+   "id": 1641705,
+   "name": "Victor Wembanyama",
+   "team": "San Antonio Spurs",
+   "conference": "West",
+   "selection": "starter",
+   "regular": {
+    "fga": 1080,
+    "fgm": 553
+   },
+   "playoffs": {
+    "fga": 362,
+    "fgm": 175
+   }
+  },
+  {
+   "id": 1630166,
+   "name": "Deni Avdija",
+   "team": "Portland Trail Blazers",
+   "conference": "West",
+   "selection": "reserve",
+   "regular": {
+    "fga": 1064,
+    "fgm": 492
+   },
+   "playoffs": {
+    "fga": 78,
+    "fgm": 35
+   }
+  },
+  {
+   "id": 1628368,
+   "name": "De'Aaron Fox",
+   "team": "San Antonio Spurs",
+   "conference": "West",
+   "selection": "replacement",
+   "regular": {
+    "fga": 1047,
+    "fgm": 509
+   },
+   "playoffs": {
+    "fga": 302,
+    "fgm": 125
+   }
+  },
+  {
+   "id": 1626157,
+   "name": "Karl-Anthony Towns",
+   "team": "New York Knicks",
+   "conference": "East",
+   "selection": "reserve",
+   "regular": {
+    "fga": 1032,
+    "fgm": 517
+   },
+   "playoffs": {
+    "fga": 187,
+    "fgm": 103
+   }
+  },
+  {
+   "id": 2544,
+   "name": "LeBron James",
+   "team": "Los Angeles Lakers",
+   "conference": "West",
+   "selection": "reserve",
+   "regular": {
+    "fga": 919,
+    "fgm": 473
+   },
+   "playoffs": {
+    "fga": 182,
+    "fgm": 84
+   }
+  },
+  {
+   "id": 1626181,
+   "name": "Norman Powell",
+   "team": "Miami Heat",
+   "conference": "East",
+   "selection": "reserve",
+   "regular": {
+    "fga": 894,
+    "fgm": 420
+   },
+   "playoffs": {
+    "fga": 0,
+    "fgm": 0
+   }
+  },
+  {
+   "id": 1631105,
+   "name": "Jalen Duren",
+   "team": "Detroit Pistons",
+   "conference": "East",
+   "selection": "reserve",
+   "regular": {
+    "fga": 803,
+    "fgm": 522
+   },
+   "playoffs": {
+    "fga": 109,
+    "fgm": 56
+   }
+  },
+  {
+   "id": 201939,
+   "name": "Stephen Curry",
+   "team": "Golden State Warriors",
+   "conference": "West",
+   "selection": "starter",
+   "regular": {
+    "fga": 799,
+    "fgm": 374
+   },
+   "playoffs": {
+    "fga": 0,
+    "fgm": 0
+   }
+  },
+  {
+   "id": 1631096,
+   "name": "Chet Holmgren",
+   "team": "Oklahoma City Thunder",
+   "conference": "West",
+   "selection": "reserve",
+   "regular": {
+    "fga": 779,
+    "fgm": 434
+   },
+   "playoffs": {
+    "fga": 146,
+    "fgm": 83
+   }
+  },
+  {
+   "id": 203507,
+   "name": "Giannis Antetokounmpo",
+   "team": "Milwaukee Bucks",
+   "conference": "East",
+   "selection": "starter",
+   "regular": {
+    "fga": 598,
+    "fgm": 373
+   },
+   "playoffs": {
+    "fga": 0,
+    "fgm": 0
+   }
+  }
+ ],
+ "pool": {
+  "regular": {
+   "fga": 32372,
+   "fgm": 16158,
+   "zones": [
+    {
+     "fga": 8702,
+     "fgm": 6055
+    },
+    {
+     "fga": 7857,
+     "fgm": 3835
+    },
+    {
+     "fga": 5462,
+     "fgm": 2472
+    },
+    {
+     "fga": 644,
+     "fgm": 260
+    },
+    {
+     "fga": 579,
+     "fgm": 230
+    },
+    {
+     "fga": 9128,
+     "fgm": 3306
+    }
+   ]
+  },
+  "playoffs": {
+   "fga": 3959,
+   "fgm": 1820,
+   "zones": [
+    {
+     "fga": 1147,
+     "fgm": 742
+    },
+    {
+     "fga": 948,
+     "fgm": 395
+    },
+    {
+     "fga": 686,
+     "fgm": 286
+    },
+    {
+     "fga": 91,
+     "fgm": 29
+    },
+    {
+     "fga": 69,
+     "fgm": 22
+    },
+    {
+     "fga": 1018,
+     "fgm": 346
+    }
+   ]
+  }
+ },
+ "droppedBackcourt": 9
+}
