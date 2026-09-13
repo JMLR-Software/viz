@@ -1,8 +1,8 @@
-import { DELTA_CLAMP, FREQ_PERCENTILE, RADIUS_FLOOR } from "./config.js";
+import { DELTA_CLAMP, EFFICIENCY_CONFIDENT_SHOTS, FREQ_PERCENTILE, RADIUS_FLOOR } from "./config.js";
 import { COURT_WIDTH, courtToSvg } from "./lib/court.js";
-import { deltaFor, maxCount } from "./lib/hexes.js";
+import { deltaFor } from "./lib/hexes.js";
 import type { HexBin } from "./lib/hexes.js";
-import { clampDelta, efficiencyColor, frequencyCap, frequencyColor, hexRadius } from "./lib/scales.js";
+import { clampDelta, confidenceOpacity, efficiencyColor, frequencyCap, frequencyColor, hexRadius } from "./lib/scales.js";
 
 export type Mode = "frequency" | "efficiency";
 
@@ -30,7 +30,7 @@ function tooltipText(bin: HexBin, mode: Mode): string {
   }
   const d = deltaFor(bin);
   const sign = d >= 0 ? "+" : "−";
-  return `${made} · ${fg}\n${sign}${percent(Math.abs(d))} vs All-Stars from here`;
+  return `${made} · ${fg}\n${sign}${percent(Math.abs(d))} vs All-Stars from this zone`;
 }
 
 /** Replace the heat map layer with hexagons for these bins. */
@@ -48,7 +48,8 @@ export function drawHexes(
 
   const radius = gridRadius * (width / COURT_WIDTH);
   const svgH = svg.viewBox.baseVal.height || width;
-  const cap = mode === "frequency" ? frequencyCap(bins, FREQ_PERCENTILE) : maxCount(bins);
+  // Same cap for both modes: one huge bin should not flatten every other hex's colour or size.
+  const cap = frequencyCap(bins, FREQ_PERCENTILE);
 
   const layer = document.createElementNS(NS, "g");
   layer.setAttribute("class", "hexes");
@@ -68,6 +69,9 @@ export function drawHexes(
         ? frequencyColor(bin.count, cap)
         : efficiencyColor(clampDelta(deltaFor(bin), DELTA_CLAMP), DELTA_CLAMP),
     );
+    if (mode === "efficiency") {
+      path.setAttribute("fill-opacity", String(confidenceOpacity(bin.count, EFFICIENCY_CONFIDENT_SHOTS)));
+    }
     path.addEventListener("pointerenter", () => {
       tooltip.textContent = tooltipText(bin, mode);
       tooltip.style.left = `${(centre.x / width) * 100}%`;
@@ -83,8 +87,13 @@ export function drawHexes(
   svg.appendChild(layer);
 }
 
-export function legendText(mode: Mode): string {
+/** `isPool` is true for the combined "All All-Stars" view, where efficiency is unavailable. */
+export function legendText(mode: Mode, isPool: boolean): string {
+  const frequency = "Colour is how often this spot was shot from — pale yellow is rare, deep red is a favourite.";
+  if (isPool) {
+    return `${frequency} Efficiency is unavailable here: the All-Star average is the baseline, so All All-Stars can't be compared with itself.`;
+  }
   return mode === "frequency"
-    ? "Colour is how often this spot was shot from — pale yellow is rare, deep red is a favourite."
-    : "Colour is field goal percentage against the All-Star average from the same zones — red is better, blue is worse. Size is volume.";
+    ? frequency
+    : "Colour is field goal percentage against the All-Star average from the same zones — red is better, blue is worse. Size is volume, faded for low-sample hexes. This player's own shots are included in that average.";
 }

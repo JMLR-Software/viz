@@ -35,11 +35,11 @@ function row(
   headshot: string | null,
 ): HTMLLIElement {
   const li = document.createElement("li");
-  li.setAttribute("aria-selected", String(key === selected));
   if (totals.fga === 0) li.classList.add("empty");
 
   const button = document.createElement("button");
   button.type = "button";
+  if (key === selected) button.setAttribute("aria-current", "true");
 
   if (headshot) {
     const img = document.createElement("img");

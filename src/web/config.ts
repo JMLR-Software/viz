@@ -20,6 +20,12 @@ export const DELTA_CLAMP = 0.15;
 /** In efficiency mode a hex never shrinks below this fraction of the grid radius. */
 export const RADIUS_FLOOR = 0.35;
 
+/**
+ * Shot count at which an efficiency bin is drawn at full opacity. Below this, a bin fades
+ * toward transparent so a one- or two-shot hex cannot shout as loudly as a well-sampled one.
+ */
+export const EFFICIENCY_CONFIDENT_SHOTS = 5;
+
 /** SVG width the court is drawn at; height follows from the court aspect ratio. */
 export const COURT_SVG_WIDTH = 560;
 

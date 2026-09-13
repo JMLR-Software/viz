@@ -30,6 +30,9 @@ const seasonSelect = el<HTMLSelectElement>("season");
 const modeSelect = el<HTMLSelectElement>("mode");
 const resultSelect = el<HTMLSelectElement>("result");
 const sortSelect = el<HTMLSelectElement>("sort");
+const efficiencyOptionOrNull = modeSelect.querySelector<HTMLOptionElement>('option[value="efficiency"]');
+if (!efficiencyOptionOrNull) throw new Error("missing #mode option[value=efficiency]");
+const efficiencyOption: HTMLOptionElement = efficiencyOptionOrNull;
 
 interface State {
   index: IndexFile | null;
@@ -123,9 +126,10 @@ function render(shots: Shot[]): void {
     emptyBox.hidden = true;
   }
 
-  legend.textContent = legendText(state.mode);
+  const isPool = state.selected === "all";
+  legend.textContent = legendText(state.mode, isPool);
   const { rows, total } = zoneStats(shots, pool.zones, ZONES);
-  renderZones(zonesTable, rows, total);
+  renderZones(zonesTable, rows, total, !isPool);
   renderSummary();
 }
 
@@ -174,11 +178,30 @@ async function refresh(): Promise<void> {
   }
 }
 
-function select(selection: Selection): void {
+/**
+ * Efficiency compares the selection against the pool average. For "All All-Stars" that
+ * average IS the selection, so the mode is unavailable; fall back to frequency.
+ */
+function syncModeControl(): void {
+  const isPool = state.selected === "all";
+  efficiencyOption.disabled = isPool;
+  if (isPool && state.mode === "efficiency") {
+    state.mode = "frequency";
+    modeSelect.value = "frequency";
+    syncResultControl();
+  }
+}
+
+function applySelection(selection: Selection): void {
   state.selected = selection;
-  writeHash(selection);
+  syncModeControl();
   renderRail();
   void refresh();
+}
+
+function select(selection: Selection): void {
+  writeHash(selection);
+  applySelection(selection);
 }
 
 function syncResultControl(): void {
@@ -212,6 +235,13 @@ sortSelect.addEventListener("change", () => {
   renderRail();
 });
 
+// Re-select from the hash on back/forward, without pushing another history entry ourselves.
+window.addEventListener("hashchange", () => {
+  const next = readHash();
+  if (next === state.selected) return;
+  applySelection(next);
+});
+
 async function start(): Promise<void> {
   try {
     const response = await fetch(`${DATA_BASE}/index.json`);
@@ -224,8 +254,13 @@ async function start(): Promise<void> {
   }
 
   const date = state.index.generatedAt.slice(0, 10);
-  footer.textContent = `Data: NBA.com/stats via nba_api, pulled ${date}. Not affiliated with the NBA.`;
+  footer.replaceChildren(`Data: NBA.com/stats via nba_api, pulled ${date}. Not affiliated with the NBA. `);
+  const repoLink = document.createElement("a");
+  repoLink.href = "https://github.com/JMLR-Software/allstar-shots";
+  repoLink.textContent = "Source";
+  footer.appendChild(repoLink);
 
+  syncModeControl();
   syncResultControl();
   renderRail();
   await refresh();

@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:web": "node esbuild.mjs",
+    "build:web": "rm -rf public/js && node esbuild.mjs",
     "dev": "pnpm build:web && wrangler dev --port 8787",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -21,20 +21,14 @@
   },
   "dependencies": {
     "d3-array": "^3.2.4",
-    "d3-format": "^3.1.0",
     "d3-hexbin": "^0.2.2",
-    "d3-scale": "^4.0.2",
-    "d3-scale-chromatic": "^3.1.0",
-    "d3-selection": "^3.0.0"
+    "d3-scale-chromatic": "^3.1.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
     "@types/d3-array": "^3.2.1",
-    "@types/d3-format": "^3.0.4",
     "@types/d3-hexbin": "^0.2.5",
-    "@types/d3-scale": "^4.0.8",
     "@types/d3-scale-chromatic": "^3.0.3",
-    "@types/d3-selection": "^3.0.11",
     "@types/node": "^22.20.2",
     "@vitest/coverage-istanbul": "^3.2.7",
     "esbuild": "^0.28.2",

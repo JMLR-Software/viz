@@ -5,6 +5,8 @@ test("loads the combined view with hexagons on the court", async ({ page }) => {
   await expect(page.locator("#summary")).toContainText("All All-Stars");
   await expect(page.locator("#court .hexes path").first()).toBeVisible();
   await expect(page.locator("#zones tbody tr")).toHaveCount(6);
+  // The combined view is its own baseline: no pool/diff columns to compare it against itself.
+  await expect(page.locator("#zones thead th")).toHaveCount(4);
 });
 
 test("selecting a player changes the summary and the hash", async ({ page }) => {
@@ -12,16 +14,31 @@ test("selecting a player changes the summary and the hash", async ({ page }) => 
   await page.getByRole("button", { name: /Nikola Jokić/ }).click();
   await expect(page.locator("#summary")).toContainText("Nikola Jokić");
   await expect(page).toHaveURL(/#p=203999/);
+  // A single player has a pool to be compared against, so the columns reappear.
+  await expect(page.locator("#zones thead th")).toHaveCount(6);
 });
 
 test("efficiency mode disables the result filter", async ({ page }) => {
   await page.goto("/");
+  await page.getByRole("button", { name: /Nikola Jokić/ }).click();
   await expect(page.locator("#result")).toBeEnabled();
   await page.locator("#mode").selectOption("efficiency");
   await expect(page.locator("#result")).toBeDisabled();
   await expect(page.locator("#legend")).toContainText("All-Star average");
   await page.locator("#mode").selectOption("frequency");
   await expect(page.locator("#result")).toBeEnabled();
+});
+
+test("efficiency option is disabled for the combined view and enabled for a player", async ({ page }) => {
+  // Playwright's toBeDisabled()/toBeEnabled() do not read a standalone <option>'s own
+  // disabled property (only its enclosing form control), so assert the attribute directly.
+  await page.goto("/");
+  await expect(page.locator("#summary")).toContainText("All All-Stars");
+  await expect(page.locator('#mode option[value="efficiency"]')).toHaveAttribute("disabled", "");
+  await expect(page.locator("#legend")).toContainText("All-Star average is the baseline");
+
+  await page.getByRole("button", { name: /Nikola Jokić/ }).click();
+  await expect(page.locator('#mode option[value="efficiency"]')).not.toHaveAttribute("disabled");
 });
 
 test("hovering a hexagon shows a tooltip with a percentage", async ({ page }) => {

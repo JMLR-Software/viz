@@ -1,6 +1,20 @@
 import { describe, expect, it } from "vitest";
-import { clampDelta, efficiencyColor, frequencyCap, frequencyColor, hexRadius } from "../../web/lib/scales.js";
+import {
+  clampDelta,
+  confidenceOpacity,
+  efficiencyColor,
+  frequencyCap,
+  frequencyColor,
+  hexRadius,
+} from "../../web/lib/scales.js";
 import type { HexBin } from "../../web/lib/hexes.js";
+
+/** Parses a d3-scale-chromatic "rgb(r, g, b)" string into its channels. */
+function rgbChannels(color: string): { r: number; g: number; b: number } {
+  const match = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/.exec(color);
+  if (!match) throw new Error(`not an rgb() string: ${color}`);
+  return { r: Number(match[1]), g: Number(match[2]), b: Number(match[3]) };
+}
 
 function bin(count: number): HexBin {
   return { x: 0, y: 0, count, made: 0, expected: 0 };
@@ -51,6 +65,38 @@ describe("efficiencyColor", () => {
 
   it("returns a colour string", () => {
     expect(efficiencyColor(0, 0.15)).toMatch(/^(#|rgb)/);
+  });
+
+  it("a positive delta (above pool average) reads more red than blue", () => {
+    const { r, b } = rgbChannels(efficiencyColor(0.15, 0.15));
+    expect(r).toBeGreaterThan(b);
+  });
+
+  it("a negative delta (below pool average) reads more blue than red", () => {
+    const { r, b } = rgbChannels(efficiencyColor(-0.15, 0.15));
+    expect(b).toBeGreaterThan(r);
+  });
+});
+
+describe("confidenceOpacity", () => {
+  it("is 0 for zero shots", () => {
+    expect(confidenceOpacity(0, 5)).toBe(0);
+  });
+
+  it("is below 0.5 for a single shot", () => {
+    expect(confidenceOpacity(1, 5)).toBeLessThan(0.5);
+  });
+
+  it("is exactly 1 at the confidence threshold", () => {
+    expect(confidenceOpacity(5, 5)).toBe(1);
+  });
+
+  it("is exactly 1 above the confidence threshold", () => {
+    expect(confidenceOpacity(50, 5)).toBe(1);
+  });
+
+  it("never exceeds 1", () => {
+    expect(confidenceOpacity(1000, 5)).toBeLessThanOrEqual(1);
   });
 });
 

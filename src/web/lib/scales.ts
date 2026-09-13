@@ -32,3 +32,11 @@ export function hexRadius(count: number, cap: number, gridRadius: number, floor:
   const t = Math.min(1, Math.sqrt(count) / Math.sqrt(Math.max(1, cap)));
   return gridRadius * (floor + (1 - floor) * t);
 }
+
+/**
+ * Fade a bin toward transparent below `confident` shots, so a one- or two-shot hex does not
+ * carry the same visual weight as a well-sampled one. Never exceeds full opacity.
+ */
+export function confidenceOpacity(count: number, confident: number): number {
+  return Math.min(1, Math.sqrt(count / confident));
+}
