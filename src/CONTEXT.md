@@ -12,7 +12,7 @@ The Worker (`src/worker.ts`, configured in `wrangler.jsonc` with `run_worker_fir
 src/
 ├── worker.ts, redirect.ts, headers.ts   the Worker main and its two pure helpers
 ├── web/
-│   ├── shell/               registry.ts (the showcase list), mount.ts (header, dropdown, footer), legend.ts (fills a .legend colour key), config.ts, lib/rec.ts, lib/legend.ts (legendTicks, legendStops on a square-root scale)
+│   ├── shell/               registry.ts (the showcase list), mount.ts (header, dropdown, footer), legend.ts (fills a .legend colour key), config.ts, lib/rec.ts, lib/legend.ts (legendTicks, legendStops on a square-root scale), player.ts (createPlayer: the shared play/pause loop), lib/playback.ts (positionAt, elapsedForPosition)
 │   ├── home/                the / tile grid
 │   └── shots/               one folder per page; esbuild builds each index.ts to public/js/pages/<folder>.js
 │       ├── config.ts        every constant: ZONES, hex radius, colour domains, URL templates
@@ -37,7 +37,7 @@ src/
 │       └── lib/             pure functions, unit-tested
 │           ├── data.ts      TornadoFile type, decodeTracks (points, off-map drops)
 │           ├── totals.ts    buildCumulative, countAt, maxFinal
-│           ├── timeline.ts  positionAt, yearIndexAt, positionForYearIndex, trackAlpha
+│           ├── timeline.ts  yearIndexAt, positionForYearIndex, trackAlpha
 │           └── scale.ts     heatScale, trackWidth
 └── test/
     ├── unit/<area>/         Vitest, one file per lib module (shell, shots, worker, …)

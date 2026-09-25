@@ -4,6 +4,7 @@ import type { GeometryCollection, Topology } from "topojson-specification";
 import { mountShell } from "../shell/mount.js";
 import { REPO_URL } from "../shell/config.js";
 import { shouldAutoplay } from "../shell/lib/rec.js";
+import { createPlayer } from "../shell/player.js";
 import {
   ALBERS_SCALE, ALBERS_TRANSLATE, DATA_BASE, EMPTY_FILL, HEAT_PERCENTILE, HOLD_MS, MAP_HEIGHT, MAP_WIDTH, PLAY_MS,
 } from "./config.js";
@@ -13,8 +14,7 @@ import type { County, Scene } from "./draw.js";
 import { decodeTracks } from "./lib/data.js";
 import type { Project, TornadoFile } from "./lib/data.js";
 import { heatScale } from "./lib/scale.js";
-import { elapsedForPosition, positionAt, positionForYearIndex, yearIndexAt } from "./lib/timeline.js";
-import type { Timeline } from "./lib/timeline.js";
+import { positionForYearIndex, yearIndexAt } from "./lib/timeline.js";
 import { buildCumulative, countAt, maxFinal } from "./lib/totals.js";
 
 const el = <T extends HTMLElement>(id: string): T => {
@@ -83,17 +83,12 @@ function sizeCanvas(): number {
 }
 
 function run(file: TornadoFile, scene: Scene): void {
-  const timeline: Timeline = { years: scene.years, playMs: PLAY_MS, holdMs: HOLD_MS };
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let playing = shouldAutoplay(rec, reduced);
-  let position = playing ? 0 : scene.years;
-  let startedAt = performance.now();
   let lastYearIndex = -1;
-
   yearInput.max = String(scene.years - 1);
   sizeCanvas();
 
-  const render = (): void => {
+  const render = (position: number): void => {
     drawFrame(ctx, scene, position, strongInput.checked);
     const yearIndex = yearIndexAt(position, scene.years);
     if (yearIndex !== lastYearIndex) {
@@ -104,33 +99,19 @@ function run(file: TornadoFile, scene: Scene): void {
     canvas.dataset.drawn = "true";
   };
 
-  const setPlaying = (next: boolean): void => {
-    playing = next;
-    playButton.textContent = playing ? "Pause" : "Play";
-    if (playing) {
-      startedAt = performance.now() - elapsedForPosition(position >= scene.years ? 0 : position, timeline);
-      requestAnimationFrame(tick);
-    }
-  };
-
-  const tick = (now: number): void => {
-    if (!playing) return;
-    position = positionAt(now - startedAt, timeline);
-    render();
-    requestAnimationFrame(tick);
-  };
-
-  playButton.addEventListener("click", () => setPlaying(!playing));
-  yearInput.addEventListener("input", () => {
-    setPlaying(false);
-    position = positionForYearIndex(Number(yearInput.value));
-    render();
+  const player = createPlayer({
+    playback: { span: scene.years, playMs: PLAY_MS, holdMs: HOLD_MS },
+    button: playButton,
+    autoplay: shouldAutoplay(rec, reduced),
+    render,
   });
+
+  yearInput.addEventListener("input", () => player.seek(positionForYearIndex(Number(yearInput.value))));
   const showLegend = (): void => renderLegend(legend, strongInput.checked ? scene.strong : scene.all, strongInput.checked);
   strongInput.addEventListener("change", () => {
     countyInfo.textContent = "";
     showLegend();
-    render();
+    player.redraw();
   });
   canvas.addEventListener("click", (event) => {
     const rect = canvas.getBoundingClientRect();
@@ -142,21 +123,19 @@ function run(file: TornadoFile, scene: Scene): void {
       return;
     }
     const heat = strongInput.checked ? scene.strong : scene.all;
-    const yearIndex = yearIndexAt(position, scene.years);
+    const yearIndex = yearIndexAt(player.position, scene.years);
     const n = countAt(heat.cumulative, county.fips, yearIndex);
     const rated = strongInput.checked ? " rated EF3+" : "";
     countyInfo.textContent = `${county.name}: ${n} tornado${n === 1 ? "" : "es"}${rated}, ${file.firstYear}–${file.firstYear + yearIndex}`;
   });
   window.addEventListener("resize", () => {
     sizeCanvas();
-    render();
+    player.redraw();
   });
 
   // The controls ship disabled, so input before the data arrives is not silently dropped.
   for (const control of [playButton, yearInput, strongInput]) control.disabled = false;
   showLegend();
-  setPlaying(playing);
-  render();
 }
 
 async function start(): Promise<void> {

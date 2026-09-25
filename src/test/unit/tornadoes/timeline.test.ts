@@ -1,21 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
-  elapsedForPosition, positionAt, positionForYearIndex, trackAlpha, yearIndexAt,
+  positionForYearIndex, trackAlpha, yearIndexAt,
 } from "../../../web/tornadoes/lib/timeline.js";
-
-const t = { years: 10, playMs: 1000, holdMs: 500 };
-
-describe("positionAt", () => {
-  it("runs 0 to years over playMs", () => {
-    expect(positionAt(0, t)).toBe(0);
-    expect(positionAt(500, t)).toBe(5);
-  });
-  it("holds at the end, then loops", () => {
-    expect(positionAt(1200, t)).toBe(10);
-    expect(positionAt(1500, t)).toBe(0);
-    expect(positionAt(2000, t)).toBe(5);
-  });
-});
 
 describe("yearIndexAt", () => {
   it("floors the position and clamps to the last year", () => {
@@ -29,9 +15,6 @@ describe("scrubbing", () => {
   it("puts a scrubbed year at its end, so its heat and tracks are shown", () => {
     expect(positionForYearIndex(4)).toBe(5);
     expect(yearIndexAt(positionForYearIndex(4), 10)).toBe(4);
-  });
-  it("resumes play from the scrubbed position, not from the start", () => {
-    expect(positionAt(elapsedForPosition(5, t), t)).toBe(5);
   });
 });
 
