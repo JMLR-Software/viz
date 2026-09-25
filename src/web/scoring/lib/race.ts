@@ -84,6 +84,44 @@ export function barsAt(race: Race, position: number): Bar[] {
     .sort((a, b) => a.y - b.y || a.player - b.player);
 }
 
+/**
+ * Assigns a palette index to every player who reaches the top `race.topN` in some season from `start` on, so that
+ * no two players who ever share a season's top `topN` are given the same colour: greedy, in the order each player
+ * first enters the top. Players who never reach the top from `start` on get -1 (drawRace only looks up bars it
+ * draws, and those are always current or former top-`topN` members). Throws if `paletteSize` is too small to
+ * colour the real overlap without a clash, rather than silently letting two players collide.
+ */
+export function barColors(race: Race, start: number, paletteSize: number): number[] {
+  const neighbors = new Map<number, Set<number>>();
+  const firstEntry = new Map<number, number>();
+  for (let s = start; s <= race.last; s += 1) {
+    const top = race.tops[s];
+    for (let i = 0; i < top.length; i += 1) {
+      const p = top[i];
+      if (!neighbors.has(p)) neighbors.set(p, new Set());
+      if (!firstEntry.has(p)) firstEntry.set(p, s);
+      for (let j = i + 1; j < top.length; j += 1) {
+        const q = top[j];
+        neighbors.get(p)!.add(q);
+        if (!neighbors.has(q)) neighbors.set(q, new Set());
+        neighbors.get(q)!.add(p);
+      }
+    }
+  }
+  const order = [...firstEntry.keys()].sort((a, b) => firstEntry.get(a)! - firstEntry.get(b)! || a - b);
+  const colors = new Array<number>(race.totals.length).fill(-1);
+  for (const player of order) {
+    const used = new Set([...neighbors.get(player)!].map((n) => colors[n]).filter((c) => c >= 0));
+    let color = 0;
+    while (used.has(color)) color += 1;
+    if (color >= paletteSize) {
+      throw new Error(`barColors: a palette of ${paletteSize} cannot colour player ${player} without a clash in a top ${race.topN}`);
+    }
+    colors[player] = color;
+  }
+  return colors;
+}
+
 export function seasonIndexAt(position: number, last: number): number {
   return Math.min(last, Math.max(0, Math.ceil(position)));
 }

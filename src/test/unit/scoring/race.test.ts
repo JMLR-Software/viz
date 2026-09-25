@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
-  barsAt, buildRace, cumulativeTotals, firstCompleteSeason, rankAt, seasonIndexAt, startNote,
+  barColors, barsAt, buildRace, cumulativeTotals, firstCompleteSeason, rankAt, seasonIndexAt, startNote,
 } from "../../../web/scoring/lib/race.js";
 
 const players = [
@@ -68,6 +68,54 @@ describe("barsAt", () => {
   });
   it("clamps past the last season", () => {
     expect(barsAt(race, 5)).toEqual(barsAt(race, 1));
+  });
+});
+
+describe("barColors", () => {
+  it("gives no two players who ever share a top the same colour", () => {
+    // X leads season 0 with Y, then drops out of the top while Z overtakes and Y stays: X and Z never share a
+    // top, so index-based colouring (0 and 2, both even) would collide, but they never need to differ.
+    const race = buildRace(
+      [
+        { id: 1, name: "X", first: 0, points: [100, 0] },
+        { id: 2, name: "Y", first: 0, points: [90, 50] },
+        { id: 3, name: "Z", first: 0, points: [10, 200] },
+      ],
+      2,
+      2,
+    );
+    expect(race.tops).toEqual([
+      [0, 1],
+      [2, 1],
+    ]);
+    const colors = barColors(race, 0, 2);
+    expect(colors[0]).not.toBe(colors[1]); // season 0's top
+    expect(colors[2]).not.toBe(colors[1]); // season 1's top
+  });
+
+  it("leaves a player who never reaches the top from start unassigned", () => {
+    const race = buildRace(
+      [
+        { id: 1, name: "X", first: 0, points: [100, 100] },
+        { id: 2, name: "Y", first: 0, points: [10, 10] },
+      ],
+      2,
+      1,
+    );
+    expect(barColors(race, 0, 2)).toEqual([0, -1]);
+  });
+
+  it("throws rather than let three players who share a top collide in a two-colour palette", () => {
+    const race = buildRace(
+      [
+        { id: 1, name: "A", first: 0, points: [100] },
+        { id: 2, name: "B", first: 0, points: [90] },
+        { id: 3, name: "C", first: 0, points: [80] },
+      ],
+      1,
+      3,
+    );
+    expect(() => barColors(race, 0, 2)).toThrow(/palette of 2/);
   });
 });
 

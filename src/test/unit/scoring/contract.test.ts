@@ -1,7 +1,7 @@
 import { readFileSync, statSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { DATA_BUDGET_BYTES, TOP_N } from "../../../web/scoring/config.js";
-import { buildRace, firstCompleteSeason } from "../../../web/scoring/lib/race.js";
+import { BAR_COLORS, DATA_BUDGET_BYTES, TOP_N } from "../../../web/scoring/config.js";
+import { barColors, buildRace, firstCompleteSeason } from "../../../web/scoring/lib/race.js";
 import type { ScoringFile } from "../../../web/scoring/lib/race.js";
 
 const PATH = "public/data/scoring/scoring.json";
@@ -33,5 +33,14 @@ describe("the scoring data contract", () => {
 
   it("stays inside the data budget", () => {
     expect(statSync(PATH).size).toBeLessThanOrEqual(DATA_BUDGET_BYTES);
+  });
+
+  it("colours no season's top N with a repeated colour, on the real data", () => {
+    const race = buildRace(file.players, file.seasons.length, file.topN);
+    const colors = barColors(race, file.startSeason, BAR_COLORS.length);
+    for (let s = file.startSeason; s <= race.last; s += 1) {
+      const top = race.tops[s].map((p) => colors[p]);
+      expect(new Set(top).size).toBe(top.length);
+    }
   });
 });
