@@ -46,6 +46,35 @@ test("tapping the busiest hub keeps only its routes; tapping empty space clears"
   await expect(page.locator("#airport-info")).toHaveText("");
 });
 
+test.describe("tap reach on a phone", () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+
+  test("tapping about 12px off a hub still selects it", async ({ page, request }) => {
+    const file = (await (await request.get("/data/flights/flights.json")).json()) as FlightFile;
+    const degree = new Map<number, number>();
+    for (let i = 0; i < file.routes.length; i += 4) {
+      for (const end of [file.routes[i], file.routes[i + 1]]) degree.set(end, (degree.get(end) ?? 0) + 1);
+    }
+    const albers = geoAlbersUsa().scale(ALBERS_SCALE).translate([...ALBERS_TRANSLATE]);
+    const xy = file.airports.map((a) => albers([a.lon, a.lat])!);
+    // Among the busiest airports, tap the one farthest from its nearest neighbor: offsetting the tap
+    // by a few CSS px must not land closer to a different airport than to the one under test.
+    const busiest = [...degree.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10).map(([i]) => i);
+    const isolation = (i: number) =>
+      Math.min(...xy.map((p, j) => (j === i ? Infinity : Math.hypot(p[0] - xy[i][0], p[1] - xy[i][1]))));
+    const hub = busiest.reduce((best, i) => (isolation(i) > isolation(best) ? i : best));
+    const [x, y] = xy[hub];
+
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/flights/");
+    await expect(page.locator("#map")).toHaveAttribute("data-drawn", "true");
+    const map = page.locator("#map");
+    const box = (await map.boundingBox())!;
+    await map.click({ position: { x: (x / MAP_WIDTH) * box.width + 12, y: (y / MAP_HEIGHT) * box.height } });
+    await expect(page.locator("#airport-info")).toContainText(`${file.airports[hub].code}, `);
+  });
+});
+
 test("reduced motion opens paused; record mode plays", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/flights/");

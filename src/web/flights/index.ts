@@ -7,7 +7,7 @@ import { shouldAutoplay } from "../shell/lib/rec.js";
 import { mountShell } from "../shell/mount.js";
 import { createPlayer } from "../shell/player.js";
 import {
-  ALBERS_SCALE, ALBERS_TRANSLATE, ARC_STEPS, DATA_BASE, MAP_HEIGHT, MAP_WIDTH, TAP_RADIUS, TRAVEL_MS,
+  ALBERS_SCALE, ALBERS_TRANSLATE, ARC_STEPS, DATA_BASE, MAP_HEIGHT, MAP_WIDTH, TAP_RADIUS, TAP_RADIUS_PX, TRAVEL_MS,
 } from "./config.js";
 import { drawFlights } from "./draw.js";
 import type { Arc, FlightScene } from "./draw.js";
@@ -30,23 +30,36 @@ const ctx: CanvasRenderingContext2D = ctxOrNull;
 
 type StatesTopology = Topology<{ states: GeometryCollection }>;
 
+/** Alaska, Hawaii and Puerto Rico: no route in the data touches them, so they'd sit empty in their insets. */
+const OFF_MAP_STATE_IDS = new Set(["02", "15", "72"]);
+
+function lower48States(topo: StatesTopology): GeometryCollection {
+  return {
+    ...topo.objects.states,
+    geometries: topo.objects.states.geometries.filter((g) => !OFF_MAP_STATE_IDS.has(String(g.id))),
+  };
+}
+
 function buildScene(file: FlightFile, routes: readonly Route[], topo: StatesTopology): FlightScene {
   const albers = geoAlbersUsa().scale(ALBERS_SCALE).translate([...ALBERS_TRANSLATE]);
   const project: Project = (lonLat) => albers(lonLat);
   const path = geoPath(); // the atlas is already projected into the 975x610 frame
   const lonLat = (i: number): Point => [file.airports[i].lon, file.airports[i].lat];
   const max = routes.reduce((m, r) => Math.max(m, r.passengers), 1);
+  const states = lower48States(topo);
   const arcs: Arc[] = routes
     .map((r) => {
       const points = arcPoints(lonLat(r.a), lonLat(r.b), ARC_STEPS, project);
+      if (points.length < 2) return null;
       const line = new Path2D();
       points.forEach(([x, y], k) => (k === 0 ? line.moveTo(x, y) : line.lineTo(x, y)));
       return { a: r.a, b: r.b, width: widthFor(r.passengers, max), path: line, measured: measure(points), dots: dotCount(r.departures) };
     })
+    .filter((arc): arc is Arc => arc !== null)
     .sort((x, y) => x.width - y.width);
   return {
-    states: new Path2D(path(feature(topo, topo.objects.states)) ?? ""),
-    borders: new Path2D(path(mesh(topo, topo.objects.states, (a, b) => a !== b)) ?? ""),
+    states: new Path2D(path(feature(topo, states)) ?? ""),
+    borders: new Path2D(path(mesh(topo, states, (a, b) => a !== b)) ?? ""),
     arcs,
     airports: file.airports.map((_, i) => project(lonLat(i)) ?? [Number.NaN, Number.NaN]),
   };
@@ -64,7 +77,7 @@ function describe(file: FlightFile, routes: readonly Route[], airport: number): 
   const a = file.airports[airport];
   const { routes: n, passengers } = airportSummary(routes, airport);
   return `${a.code}, ${a.city}: ${n} of the top ${routes.length.toLocaleString("en-US")} routes, ` +
-    `${passengers.toLocaleString("en-US")} passengers in ${file.year}`;
+    `carrying ${passengers.toLocaleString("en-US")} passengers in ${file.year}`;
 }
 
 function run(file: FlightFile, topo: StatesTopology): void {
@@ -91,7 +104,8 @@ function run(file: FlightFile, topo: StatesTopology): void {
     const rect = canvas.getBoundingClientRect();
     const x = ((event.clientX - rect.left) / rect.width) * MAP_WIDTH;
     const y = ((event.clientY - rect.top) / rect.height) * MAP_HEIGHT;
-    selected = nearestAirport(scene.airports, x, y, TAP_RADIUS);
+    const reach = Math.max(TAP_RADIUS, (TAP_RADIUS_PX * MAP_WIDTH) / rect.width);
+    selected = nearestAirport(scene.airports, x, y, reach);
     airportInfo.textContent = selected < 0 ? "" : describe(file, routes, selected);
     player.redraw();
   });

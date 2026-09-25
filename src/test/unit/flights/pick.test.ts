@@ -15,6 +15,9 @@ describe("nearestAirport", () => {
   it("picks nothing when every airport is out of reach", () => {
     expect(nearestAirport(points, 50, 50, 5)).toBe(-1);
   });
+  it("picks an airport exactly at the reach boundary", () => {
+    expect(nearestAirport([[0, 0]], 5, 0, 5)).toBe(0);
+  });
 });
 
 describe("routesTouching and airportSummary", () => {

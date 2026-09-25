@@ -25,6 +25,8 @@ export const AIRPORT_RADIUS = 1.4;
 export const SELECTED_RADIUS = 5;
 /** A tap within this many map units of an airport picks it. */
 export const TAP_RADIUS = 14;
+/** A tap within this many CSS px of an airport picks it, whatever the map's rendered size. */
+export const TAP_RADIUS_PX = 22;
 export const STATE_BORDER_WIDTH = 0.5;
 export const SELECTED_RING_WIDTH = 1.5;
 
