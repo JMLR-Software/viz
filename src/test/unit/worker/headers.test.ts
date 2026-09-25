@@ -13,6 +13,12 @@ describe("headersFor", () => {
     expect(headersFor("/js/chunks/chunk-ABC123.js")["Cache-Control"]).toBe("public, max-age=31536000, immutable");
     expect(headersFor("/data/tornadoes/tornadoes.json")["Cache-Control"]).toBe("public, max-age=31536000, immutable");
   });
+  it("never caches a missing chunk or data file, so a later deploy is seen", () => {
+    for (const path of ["/js/chunks/chunk-GONE.js", "/data/shots/players/1.json"]) {
+      expect(headersFor(path, 404)["Cache-Control"], path).toBeUndefined();
+      expect(headersFor(path, 404)["Content-Security-Policy"], path).toContain("default-src 'self'");
+    }
+  });
   it("revalidates page scripts so a deploy is seen at once", () => {
     expect(headersFor("/js/pages/shots.js")["Cache-Control"]).toBe("no-cache");
   });

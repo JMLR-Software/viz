@@ -11,7 +11,7 @@ export default {
     if (target) return Response.redirect(target, 301);
     const asset = await env.ASSETS.fetch(request);
     const response = new Response(asset.body, asset);
-    for (const [name, value] of Object.entries(headersFor(new URL(request.url).pathname))) {
+    for (const [name, value] of Object.entries(headersFor(new URL(request.url).pathname, asset.status))) {
       response.headers.set(name, value);
     }
     return response;

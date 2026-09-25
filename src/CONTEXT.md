@@ -39,7 +39,7 @@ src/
 - **Unit tests:** `pnpm test`; coverage with `pnpm test:coverage` (80% lines and functions on `src/web/*/lib/**`).
 - **E2E:** `pnpm test:e2e` (starts its own `wrangler dev`, never reuses one).
 - **Typecheck:** `pnpm typecheck`.
-- **Add a showcase:** a registry entry in `src/web/shell/registry.ts` (built showcases only), `src/web/<slug>/index.ts` that calls `mountShell("<slug>")`, `public/<slug>/index.html` with `<header id="viz-header">`, `<footer id="footer">` and `/js/pages/<slug>.js`, and data under `public/data/<slug>/` written by `scripts/<slug>/`.
+- **Add a showcase:** a registry entry in `src/web/shell/registry.ts` (built showcases only), `src/web/<slug>/index.ts` that calls `mountShell("<slug>")`, `public/<slug>/index.html` that links `/viz.css` and has `<header id="viz-header">`, `<footer id="footer">` and `<script type="module" src="/js/pages/<slug>.js" blocking="render">` (a unit test checks the attribute), and data under `public/data/<slug>/` written by `scripts/<slug>/`.
 - **Deploy:** `pnpm run deploy` (tests, production build, `wrangler deploy`). Plain `pnpm deploy` is a reserved pnpm command and fails.
 
 ## Rules

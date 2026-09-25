@@ -1,4 +1,4 @@
-/** Zone names in the order the data pipeline writes them. Must match scripts/fetch_shots.py. */
+/** Zone names in the order the data pipeline writes them. Must match scripts/shots/fetch_shots.py. */
 export const ZONES = [
   "Restricted Area",
   "In The Paint (Non-RA)",
