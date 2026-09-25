@@ -58,6 +58,19 @@ def test_build_events_refuses_an_empty_window():
         fq.build_events(rows(), date(2020, 1, 1), date(2020, 2, 1))
 
 
+DUPLICATE_ID_CSV = """time,latitude,longitude,depth,mag,magType,nst,gap,dmin,rms,net,id,updated,place,type,horizontalError,depthError,magError,magNst,status,locationSource,magSource
+2025-09-01T00:00:00.000Z,10.0,20.0,10,,mb,,,,,us,us0010,2025-09-02T00:00:00.000Z,"blank magnitude, first copy",earthquake,,,,,reviewed,us,us
+2025-09-01T01:00:00.000Z,10.0,20.0,10,5.0,mb,,,,,us,us0010,2025-09-02T00:00:00.000Z,"valid, later copy",earthquake,,,,,reviewed,us,us
+"""
+
+
+def test_a_later_copy_of_a_duplicate_id_is_kept_when_the_first_copy_fails_validation():
+    dup_rows = fq.parse_csv(DUPLICATE_ID_CSV)
+    events, skipped = fq.build_events(dup_rows, START, END)
+    assert skipped == 1  # the first copy, blank magnitude
+    assert events == [60, 1000, 2000, 50, 10]  # the second, valid copy is not dropped as a duplicate
+
+
 def test_build_output_names_its_window_and_fields():
     out = fq.build_output(rows(), START, END, "2026-09-25T00:00:00Z")
     assert (out["start"], out["end"], out["minMag"]) == ("2025-09-01", "2026-09-01", 4.5)

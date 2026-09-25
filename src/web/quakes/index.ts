@@ -34,8 +34,11 @@ if (!ctxOrNull) throw new Error("canvas 2d unavailable");
 const ctx: CanvasRenderingContext2D = ctxOrNull;
 
 // The data pins MIN_MAG (the slider's floor); MAX_SLIDER_MAG is the ceiling. Set before the slider is enabled.
+// Also reset the value: a restored form value (Firefox on reload/back-forward) must not disagree with the
+// MIN_MAG filter `run()` draws with below.
 magInput.min = String(MIN_MAG);
 magInput.max = String(MAX_SLIDER_MAG);
+magInput.value = String(MIN_MAG);
 
 type LandTopology = Topology<{ land: GeometryCollection }>;
 

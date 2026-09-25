@@ -1,7 +1,7 @@
 import { bisector } from "d3-array";
 import type { Quake } from "./data.js";
 
-/** The slider steps by 0.1 in floating point; magnitudes are exact tenths. */
+/** Absorbs float-addition noise: the slider steps by 0.1, and mag/10 gives the nearest double, not an exact tenth. */
 const EPSILON = 1e-9;
 const byDay = bisector((q: Quake) => q.day);
 

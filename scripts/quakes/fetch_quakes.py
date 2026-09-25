@@ -73,8 +73,8 @@ def hundredths(value):
     return round(float(value) * 100)
 
 
-def event(row, start_dt):
-    minute = int((parse_time(row["time"]) - start_dt).total_seconds() // 60)
+def event(row, start_dt, when):
+    minute = int((when - start_dt).total_seconds() // 60)
     return [
         minute,
         hundredths(row["latitude"]),
@@ -93,13 +93,16 @@ def build_events(rows, start, end):
     for r in rows:
         if r["type"] != "earthquake" or r["id"] in seen:
             continue
-        seen.add(r["id"])
         try:
-            if not start_dt <= parse_time(r["time"]) < end_dt:
+            when = parse_time(r["time"])
+            if not start_dt <= when < end_dt:
                 continue
-            kept.append(event(r, start_dt))
+            ev = event(r, start_dt, when)
         except ValueError:
             skipped += 1  # a blank magnitude, position or time: counted, not drawn
+            continue
+        seen.add(r["id"])  # only once the row has passed validation, so a bad first copy doesn't shadow a good one
+        kept.append(ev)
     if not kept:
         raise ValueError("no earthquakes in the window")
     return [v for e in sorted(kept, key=lambda e: e[0]) for v in e], skipped

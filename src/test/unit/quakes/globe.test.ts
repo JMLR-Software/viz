@@ -26,6 +26,12 @@ describe("applyDrag", () => {
     expect(after.phi).toBeGreaterThan(0);
     expect(before).toEqual({ lambda: 0, phi: 0 });
   });
+  it("clamps the stored tilt, so dragging back is never dead", () => {
+    const tippedUp = applyDrag({ lambda: 0, phi: 0 }, 0, -100_000);
+    expect(tippedUp.phi).toBe(MAX_TILT - GLOBE_TILT);
+    const tippedDown = applyDrag({ lambda: 0, phi: 0 }, 0, 100_000);
+    expect(tippedDown.phi).toBe(-MAX_TILT - GLOBE_TILT);
+  });
 });
 
 describe("onNearSide", () => {

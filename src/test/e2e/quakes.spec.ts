@@ -19,6 +19,9 @@ test("draws the globe with quakes, a month and a count", async ({ page }) => {
   await page.goto("/quakes/");
   await expect(page.locator("#globe")).toHaveAttribute("data-drawn", "true");
   expect(await quakePixels(page)).toBeGreaterThan(500);
+  // The slider's value and its label must agree with what was drawn, even after a restored form value.
+  await expect(page.locator("#min-mag")).toHaveValue("4.5");
+  await expect(page.locator("#mag-label")).toHaveText("M4.5+");
   await expect(page.locator("#date-label")).toHaveText(/^[A-Z][a-z]{2} 20\d\d$/);
   await expect(page.locator("#viz-header .hook")).toContainText(/[A-Z][a-z]{2} 20\d\d – [A-Z][a-z]{2} 20\d\d/);
   await expect(page.locator("#footer .credit")).toContainText("Not affiliated with the USGS");
