@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DELTA_CLAMP, FREQ_PERCENTILE, HEADSHOT_URL, HEX_RADIUS, RADIUS_FLOOR, ZONES } from "../../web/config.js";
+import { DELTA_CLAMP, FREQ_PERCENTILE, HEADSHOT_URL, HEX_RADIUS, RADIUS_FLOOR, ZONES } from "../../../web/shots/config.js";
 
 describe("config", () => {
   it("lists the six zones in pipeline order", () => {

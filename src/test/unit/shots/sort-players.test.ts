@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { sortPlayers } from "../../web/players.js";
-import type { PlayerEntry } from "../../web/lib/data.js";
+import { sortPlayers } from "../../../web/shots/players.js";
+import type { PlayerEntry } from "../../../web/shots/lib/data.js";
 
 function player(name: string, fga: number, fgm: number): PlayerEntry {
   return {

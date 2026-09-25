@@ -6,8 +6,8 @@ import {
   frequencyCap,
   frequencyColor,
   hexRadius,
-} from "../../web/lib/scales.js";
-import type { HexBin } from "../../web/lib/hexes.js";
+} from "../../../web/shots/lib/scales.js";
+import type { HexBin } from "../../../web/shots/lib/hexes.js";
 
 /** Parses a d3-scale-chromatic "rgb(r, g, b)" string into its channels. */
 function rgbChannels(color: string): { r: number; g: number; b: number } {

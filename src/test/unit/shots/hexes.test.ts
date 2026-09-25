@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { binShots, deltaFor, maxCount } from "../../web/lib/hexes.js";
-import type { Shot } from "../../web/lib/data.js";
+import { binShots, deltaFor, maxCount } from "../../../web/shots/lib/hexes.js";
+import type { Shot } from "../../../web/shots/lib/data.js";
 
 function shot(x: number, y: number, made: boolean, zone = 0): Shot {
   return { x, y, made, zone, distance: 1, period: 1, date: "20251023" };

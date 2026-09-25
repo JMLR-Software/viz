@@ -16,7 +16,7 @@ allstar-shots/
 │   └── CONTEXT.md
 ├── scripts/           the data pipeline: roster, fetch script, pytest
 │   └── CONTEXT.md
-├── public/            index.html, style.css, generated data/ and js/
+├── public/            shots/ (index.html, shots.css), generated data/<slug>/ and js/
 └── docs/              specs and plans; the design spec is the contract
     └── CONTEXT.md
 ```
@@ -26,10 +26,10 @@ allstar-shots/
 | Task | Workspace | Start with | Skip |
 |---|---|---|---|
 | Why does it work this way? | `docs/` | `superpowers/specs/2026-09-13-allstar-shots-design.md` | `src/`, the spec explains the code |
-| Change what the court or table shows | `src/` | `CONTEXT.md`, then `src/web/lib/` for math, `src/web/` for DOM | `scripts/` |
-| Colours, hex size, thresholds | `src/` | `src/web/config.ts` | everything else |
-| Add a player or refresh the data | `scripts/` | `CONTEXT.md`, then `roster.json` | `src/`, nothing there knows player names |
-| Data file shape | `docs/` | spec §5 | guessing from `public/data/` |
+| Change what the court or table shows | `src/` | `CONTEXT.md`, then `src/web/shots/lib/` for math, `src/web/shots/` for DOM | `scripts/` |
+| Colours, hex size, thresholds | `src/` | `src/web/shots/config.ts` | everything else |
+| Add a player or refresh the data | `scripts/` | `CONTEXT.md`, then `scripts/shots/roster.json` | `src/`, nothing there knows player names |
+| Data file shape | `docs/` | spec §5 | guessing from `public/data/shots/` |
 | Deploy | `src/` | `CONTEXT.md` deploy section | — |
 | Planning a new feature | `docs/` | `CONTEXT.md` | writing code first |
 
@@ -37,7 +37,7 @@ allstar-shots/
 
 | Workspace | Pattern | Example |
 |---|---|---|
-| `src/` | kebab-case files, one pure module per concern under `src/web/lib/` | `hexes.ts`, `zone-table.ts` |
+| `src/` | kebab-case files, one pure module per concern under `src/web/<slug>/lib/` | `hexes.ts`, `zone-table.ts` |
 | `scripts/` | snake_case Python, one script, tests beside it | `fetch_shots.py`, `test_fetch_shots.py` |
 | `public/data/` | generated only, never hand-edited | `players/203999.json` |
 | `docs/` | `superpowers/specs/YYYY-MM-DD-<topic>-design.md`, `superpowers/plans/YYYY-MM-DD-<topic>.md` | `2026-09-13-allstar-shots-design.md` |

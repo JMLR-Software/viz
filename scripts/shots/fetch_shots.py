@@ -26,8 +26,8 @@ RETRIES = 3
 RETRY_SLEEP_SECONDS = 5.0
 REQUEST_TIMEOUT = 30
 
-ROOT = Path(__file__).resolve().parent.parent
-DATA_DIR = ROOT / "public" / "data"
+ROOT = Path(__file__).resolve().parent.parent.parent
+DATA_DIR = ROOT / "public" / "data" / "shots"
 PLAYERS_DIR = DATA_DIR / "players"
 ROSTER_PATH = Path(__file__).resolve().parent / "roster.json"
 

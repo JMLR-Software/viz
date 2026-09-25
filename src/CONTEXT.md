@@ -9,28 +9,29 @@ The dashboard page: loading the committed data, computing hex bins and zone stat
 ```
 src/
 ├── web/
-│   ├── config.ts        every constant: ZONES, hex radius, colour domains, URL templates
-│   ├── index.ts         DOM wiring: state, controls, fetch, render calls (no math here)
-│   ├── court.ts         draws the half-court lines into an SVG group
-│   ├── heatmap.ts       draws hex bins and the tooltip
-│   ├── zone-table.ts    renders the zone table
-│   ├── players.ts       renders the player rail
-│   └── lib/             pure functions, unit-tested
-│       ├── court.ts     geometry constants and courtToSvg
-│       ├── data.ts      index/shots types and decoding
-│       ├── filter.ts    filterShots
-│       ├── hexes.ts     binShots, deltaFor
-│       ├── zones.ts     zoneStats
-│       └── scales.ts    colour and radius scale helpers
+│   └── shots/               one folder per page; esbuild builds each index.ts to public/js/pages/<folder>.js
+│       ├── config.ts        every constant: ZONES, hex radius, colour domains, URL templates
+│       ├── index.ts         DOM wiring: state, controls, fetch, render calls (no math here)
+│       ├── court.ts         draws the half-court lines into an SVG group
+│       ├── heatmap.ts       draws hex bins and the tooltip
+│       ├── zone-table.ts    renders the zone table
+│       ├── players.ts       renders the player rail
+│       └── lib/             pure functions, unit-tested
+│           ├── court.ts     geometry constants and courtToSvg
+│           ├── data.ts      index/shots types and decoding
+│           ├── filter.ts    filterShots
+│           ├── hexes.ts     binShots, deltaFor
+│           ├── zones.ts     zoneStats
+│           └── scales.ts    colour and radius scale helpers
 └── test/
-    ├── unit/            Vitest, one file per lib module
-    └── e2e/             Playwright flows
+    ├── unit/shots/          Vitest, one file per lib module
+    └── e2e/                 Playwright flows (shots.spec.ts)
 ```
 
 ## Key workflows
 
 - **Run locally:** `pnpm dev` (builds `public/js/` then `wrangler dev` on :8787).
-- **Unit tests:** `pnpm test`; coverage with `pnpm test:coverage` (80% lines and functions on `src/web/lib/**`).
+- **Unit tests:** `pnpm test`; coverage with `pnpm test:coverage` (80% lines and functions on `src/web/*/lib/**`).
 - **E2E:** `pnpm test:e2e` (starts its own `wrangler dev`, never reuses one).
 - **Typecheck:** `pnpm typecheck`.
 - **Deploy:** `pnpm run deploy` (tests, production build, `wrangler deploy`). Plain `pnpm deploy` is a reserved pnpm command and fails.

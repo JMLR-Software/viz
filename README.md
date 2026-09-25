@@ -24,11 +24,11 @@ pnpm data:test      # pytest on the fetch script's pure parts
 
 ## Data
 
-The data under `public/data/` is committed. To refresh it:
+The data under `public/data/shots/` is committed. To refresh it:
 
 ```
 pnpm data:setup     # once: python3.12 venv + nba_api
-pnpm data:fetch     # ~2 minutes, 56 calls to stats.nba.com
+pnpm data:fetch:shots  # ~2 minutes, 56 calls to stats.nba.com
 ```
 
 Only works from a normal machine; the NBA blocks curl and cloud egress. See `scripts/CONTEXT.md`.

@@ -6,7 +6,7 @@ export default defineConfig({
   use: { baseURL: "http://localhost:8787" },
   webServer: {
     command: "pnpm build:web && wrangler dev --port 8787",
-    url: "http://localhost:8787/data/index.json",
+    url: "http://localhost:8787/data/shots/index.json",
     // Never reuse a running server: a leftover dev server serves a stale public/js bundle.
     reuseExistingServer: false,
     timeout: 60_000,

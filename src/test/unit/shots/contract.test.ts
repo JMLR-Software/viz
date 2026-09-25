@@ -1,9 +1,9 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { ZONES } from "../../web/config.js";
-import type { IndexFile } from "../../web/lib/data.js";
+import { ZONES } from "../../../web/shots/config.js";
+import type { IndexFile } from "../../../web/shots/lib/data.js";
 
-const index = JSON.parse(readFileSync("public/data/index.json", "utf8")) as IndexFile;
+const index = JSON.parse(readFileSync("public/data/shots/index.json", "utf8")) as IndexFile;
 
 describe("the data contract", () => {
   it("agrees with the pipeline on the zone list and its order", () => {

@@ -1,8 +1,11 @@
 /data/*
   Cache-Control: public, max-age=31536000, immutable
 
-/js/*
+/js/chunks/*
   Cache-Control: public, max-age=31536000, immutable
+
+/js/pages/*
+  Cache-Control: no-cache
 
 /*
   X-Content-Type-Options: nosniff

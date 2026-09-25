@@ -11,7 +11,7 @@
     "test:e2e": "playwright test",
     "typecheck": "tsc --noEmit",
     "data:setup": "/opt/homebrew/bin/python3.12 -m venv scripts/.venv && scripts/.venv/bin/pip install -q -r scripts/requirements.txt",
-    "data:fetch": "scripts/.venv/bin/python scripts/fetch_shots.py",
+    "data:fetch:shots": "scripts/.venv/bin/python scripts/shots/fetch_shots.py",
     "data:test": "scripts/.venv/bin/python -m pytest scripts -q",
     "deploy": "pnpm test && NODE_ENV=production pnpm build:web && wrangler deploy"
   },

@@ -6,7 +6,7 @@ export default defineConfig({
     environment: "node",
     coverage: {
       provider: "istanbul",
-      include: ["src/web/lib/**/*.ts"],
+      include: ["src/web/*/lib/**/*.ts"],
       // Spec §10: 80% on the pure math. DOM modules are Playwright's job.
       thresholds: { lines: 80, functions: 80 },
     },

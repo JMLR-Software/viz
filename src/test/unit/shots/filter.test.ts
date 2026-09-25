@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { filterShots } from "../../web/lib/filter.js";
-import type { Shot } from "../../web/lib/data.js";
+import { filterShots } from "../../../web/shots/lib/filter.js";
+import type { Shot } from "../../../web/shots/lib/data.js";
 
 const shots: Shot[] = [
   { x: 0, y: 10, made: true, zone: 0, distance: 1, period: 1, date: "20251023" },
