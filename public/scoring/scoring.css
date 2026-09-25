@@ -5,6 +5,10 @@ main { padding: 16px 24px; }
 .controls { display: flex; align-items: center; gap: 12px 16px; max-width: 960px; margin: 8px auto 0; color: var(--muted); }
 #season { flex: 1; min-width: 160px; accent-color: var(--accent); }
 #start-note { max-width: 960px; margin: 8px auto 0; color: var(--muted); font-size: 13px; }
+/* Below this width the fixed-position label would reach into the bottom rows; lay it out like record mode instead. */
+@media (max-width: 720px) {
+  #season-label { position: static; display: block; text-align: right; font-size: clamp(28px, 7vw, 56px); }
+}
 html.rec main { padding: 8px 12px; display: flex; flex-direction: column; justify-content: center; }
 /* Taller aspect ratio than #race's default, to match config.ts's REC_RACE_HEIGHT (RACE_WIDTH / REC_RACE_HEIGHT = 900 / 1016). */
 html.rec #race { aspect-ratio: 900 / 1016; }

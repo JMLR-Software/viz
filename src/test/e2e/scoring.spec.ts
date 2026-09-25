@@ -86,3 +86,14 @@ test("record mode fits the phone frame: nothing under the header or the footer",
   // The backing store follows the box after layout settles, so the chart is neither blurry nor oversized.
   await expect.poll(() => page.locator("#race").evaluate((c: HTMLCanvasElement) => c.width - c.clientWidth)).toBe(0);
 });
+
+test("on a narrow phone (non-rec), the season label does not sit over the chart's bars", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/scoring/");
+  await expect(page.locator("#race")).toHaveAttribute("data-drawn", "true");
+  const label = (await page.locator("#season-label").boundingBox())!;
+  const race = (await page.locator("#race").boundingBox())!;
+  const overlapsHorizontally = label.x < race.x + race.width && label.x + label.width > race.x;
+  const overlapsVertically = label.y < race.y + race.height && label.y + label.height > race.y;
+  expect(overlapsHorizontally && overlapsVertically).toBe(false);
+});
