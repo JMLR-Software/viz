@@ -7,7 +7,7 @@ export interface Showcase {
   credit: string;
 }
 
-/** Built showcases only. Flights, still parked, is added when it ships. */
+/** Every showcase, in dropdown order. */
 export const SHOWCASES: readonly Showcase[] = [
   {
     slug: "shots",
@@ -32,6 +32,12 @@ export const SHOWCASES: readonly Showcase[] = [
     title: "NBA Scoring Race",
     hook: "The NBA's all-time scoring list, season by season",
     credit: "Data: NBA.com/stats via nba_api. Not affiliated with the NBA.",
+  },
+  {
+    slug: "flights",
+    title: "US Flights",
+    hook: "The 1,000 busiest US air routes of 2025",
+    credit: "Data: US Bureau of Transportation Statistics (T-100). Not affiliated with the BTS or any airline.",
   },
 ];
 

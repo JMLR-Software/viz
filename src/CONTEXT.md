@@ -55,9 +55,18 @@ src/
 │       ├── draw.ts          drawRace (bars scaled to the leader, names inside long bars, points labels)
 │       └── lib/             pure functions, unit-tested
 │           └── race.ts      cumulativeTotals, rankAt, buildRace, firstCompleteSeason, barsAt, seasonIndexAt, startNote
+│   └── flights/             canvas: great-circle arcs with travelling dots, redrawn every frame
+│       ├── config.ts        every constant: field order, map frame, arc/dot sizing, timing, colours, line widths, data budget
+│       ├── index.ts         DOM wiring: load, controls (disabled until the data is in), tap-to-filter, animation loop
+│       ├── draw.ts          drawFlights (state fill, borders, arcs, travelling dots, airports, selected ring)
+│       └── lib/             pure functions, unit-tested
+│           ├── data.ts      FlightFile/Route types, decodeRoutes
+│           ├── arcs.ts      arcPoints, measure, pointAt, dotTs
+│           ├── scale.ts     widthFor, dotCount
+│           └── pick.ts      nearestAirport, routesTouching, airportSummary
 └── test/
     ├── unit/<area>/         Vitest, one file per lib module (shell, shots, worker, …)
-    └── e2e/                 Playwright flows (shell.spec.ts, shots.spec.ts, tornadoes.spec.ts, quakes.spec.ts, scoring.spec.ts)
+    └── e2e/                 Playwright flows (shell.spec.ts, shots.spec.ts, tornadoes.spec.ts, quakes.spec.ts, scoring.spec.ts, flights.spec.ts)
 ```
 
 ## Key workflows

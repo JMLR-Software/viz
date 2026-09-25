@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The busiest US air routes of 2025 · viz</title>
+    <meta name="description" content="The 1,000 busiest US domestic air routes of 2025 by passengers, as great-circle arcs." />
+    <link rel="stylesheet" href="/viz.css" />
+    <link rel="stylesheet" href="/flights/flights.css" />
+    <script type="module" src="/js/pages/flights.js" blocking="render"></script>
+  </head>
+  <body>
+    <header id="viz-header"></header>
+    <main>
+      <div class="stage">
+        <canvas id="map" role="img" aria-label="Map of the lower 48 with an arc for each of the busiest routes, width by passengers"></canvas>
+        <p id="airport-info" role="status" aria-live="polite"></p>
+      </div>
+      <div class="controls">
+        <button id="play" type="button" disabled>Pause</button>
+        <span class="hint">Tap an airport to see only its routes; tap anywhere else to clear.</span>
+      </div>
+      <p class="load-error" role="alert" hidden></p>
+    </main>
+    <footer id="footer"></footer>
+  </body>
+</html>

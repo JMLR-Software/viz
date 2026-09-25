@@ -25,6 +25,8 @@ export const AIRPORT_RADIUS = 1.4;
 export const SELECTED_RADIUS = 5;
 /** A tap within this many map units of an airport picks it. */
 export const TAP_RADIUS = 14;
+export const STATE_BORDER_WIDTH = 0.5;
+export const SELECTED_RING_WIDTH = 1.5;
 
 export const STATE_FILL = "#151922";
 export const STATE_STROKE = "rgba(255, 255, 255, 0.18)";

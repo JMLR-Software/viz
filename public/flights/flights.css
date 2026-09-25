@@ -1,0 +1,8 @@
+main { padding: 16px 24px; }
+.stage { position: relative; }
+#map { display: block; width: 100%; height: auto; aspect-ratio: 975 / 610; background: var(--bg); touch-action: manipulation; cursor: pointer; }
+#airport-info { min-height: 1.5em; margin: 8px 0 0; color: var(--ink); }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 8px; color: var(--muted); }
+.hint { font-size: 13px; }
+html.rec main { padding: 8px 12px; display: flex; flex-direction: column; justify-content: center; }
+html.rec .hint { display: none; }
