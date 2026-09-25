@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("loads the combined view with hexagons on the court", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/shots/");
   await expect(page.locator("#summary")).toContainText("All All-Stars");
   await expect(page.locator("#court .hexes path").first()).toBeVisible();
   await expect(page.locator("#zones tbody tr")).toHaveCount(6);
@@ -10,7 +10,7 @@ test("loads the combined view with hexagons on the court", async ({ page }) => {
 });
 
 test("selecting a player changes the summary and the hash", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/shots/");
   await page.getByRole("button", { name: /Nikola Jokić/ }).click();
   await expect(page.locator("#summary")).toContainText("Nikola Jokić");
   await expect(page).toHaveURL(/#p=203999/);
@@ -19,7 +19,7 @@ test("selecting a player changes the summary and the hash", async ({ page }) => 
 });
 
 test("efficiency mode disables the result filter", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/shots/");
   await page.getByRole("button", { name: /Nikola Jokić/ }).click();
   await expect(page.locator("#result")).toBeEnabled();
   await page.locator("#mode").selectOption("efficiency");
@@ -32,7 +32,7 @@ test("efficiency mode disables the result filter", async ({ page }) => {
 test("efficiency option is disabled for the combined view and enabled for a player", async ({ page }) => {
   // Playwright's toBeDisabled()/toBeEnabled() do not read a standalone <option>'s own
   // disabled property (only its enclosing form control), so assert the attribute directly.
-  await page.goto("/");
+  await page.goto("/shots/");
   await expect(page.locator("#summary")).toContainText("All All-Stars");
   await expect(page.locator('#mode option[value="efficiency"]')).toHaveAttribute("disabled", "");
   await expect(page.locator("#legend")).toContainText("All-Star average is the baseline");
@@ -42,14 +42,14 @@ test("efficiency option is disabled for the combined view and enabled for a play
 });
 
 test("hovering a hexagon shows a tooltip with a percentage", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/shots/");
   await page.locator("#court .hexes path").first().hover();
   await expect(page.locator("#tooltip")).toBeVisible();
   await expect(page.locator("#tooltip")).toContainText("%");
 });
 
 test("a player with no playoff shots shows an empty court, not an error", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/shots/");
   await page.locator("#season").selectOption("playoffs");
   const empty = page.locator("#players li.empty button").first();
   const count = await page.locator("#players li.empty").count();
@@ -61,6 +61,6 @@ test("a player with no playoff shots shows an empty court, not an error", async 
 });
 
 test("the footer credits the source", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/shots/");
   await expect(page.locator("#footer")).toContainText("Not affiliated with the NBA");
 });

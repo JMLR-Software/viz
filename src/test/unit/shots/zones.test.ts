@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { zoneStats } from "../../web/lib/zones.js";
-import type { Shot, Totals } from "../../web/lib/data.js";
+import { zoneStats } from "../../../web/shots/lib/zones.js";
+import type { Shot, Totals } from "../../../web/shots/lib/data.js";
 
 const names = ["Restricted Area", "In The Paint (Non-RA)", "Mid-Range"] as const;
 const pool: Totals[] = [

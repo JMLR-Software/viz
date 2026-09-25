@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { COURT, COURT_HEIGHT, COURT_WIDTH, courtToSvg, svgHeight } from "../../web/lib/court.js";
+import { COURT, COURT_HEIGHT, COURT_WIDTH, courtToSvg, svgHeight } from "../../../web/shots/lib/court.js";
 
 describe("court geometry", () => {
   it("spans the half court", () => {

@@ -30,7 +30,7 @@ export const EFFICIENCY_CONFIDENT_SHOTS = 5;
 export const COURT_SVG_WIDTH = 560;
 
 /** Where the committed data files live, relative to the site root. */
-export const DATA_BASE = "/data";
+export const DATA_BASE = "/data/shots";
 
 /** NBA headshot CDN. Falls back to an initials badge on error. */
 export function HEADSHOT_URL(id: number): string {

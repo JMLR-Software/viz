@@ -1,8 +1,13 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "allstar-shots",
+  "name": "viz",
+  "main": "src/worker.ts",
   "compatibility_date": "2026-03-10",
-  "assets": { "directory": "./public" },
-  "routes": [{ "pattern": "shots.jmlr.dev", "custom_domain": true }],
+  // run_worker_first: shots.jmlr.dev/ would otherwise match index.html and never reach the redirect.
+  "assets": { "directory": "./public", "binding": "ASSETS", "run_worker_first": true },
+  "routes": [
+    { "pattern": "viz.jmlr.dev", "custom_domain": true },
+    { "pattern": "shots.jmlr.dev", "custom_domain": true }
+  ],
   "observability": { "enabled": true }
 }

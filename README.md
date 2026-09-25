@@ -1,10 +1,10 @@
-# All-Star Shots 2025-26
+# viz
 
-Where the 2026 NBA All-Stars shot from during the 2025-26 season. A half-court hex heat map per player (or for the whole pool), by frequency or by efficiency against the All-Star average, with a zone table underneath.
+A small gallery of D3 data visualisations on real public data, made for reels. Pick a showcase from the dropdown; add `?rec` to any URL for a 9:16 recording frame. The first showcase, All-Star Shots (`/shots`), is where the 2026 NBA All-Stars shot from during the 2025-26 season: a half-court hex heat map per player (or for the whole pool), by frequency or by efficiency against the All-Star average, with a zone table underneath.
 
 **Status (2026-09-13):** deployed to https://shots.jmlr.dev.
 
-Live: https://shots.jmlr.dev
+Live: https://viz.jmlr.dev (https://shots.jmlr.dev redirects to `/shots`)
 
 ## Run it
 
@@ -24,11 +24,11 @@ pnpm data:test      # pytest on the fetch script's pure parts
 
 ## Data
 
-The data under `public/data/` is committed. To refresh it:
+The data under `public/data/shots/` is committed. To refresh it:
 
 ```
 pnpm data:setup     # once: python3.12 venv + nba_api
-pnpm data:fetch     # ~2 minutes, 56 calls to stats.nba.com
+pnpm data:fetch:shots  # ~2 minutes, 56 calls to stats.nba.com
 ```
 
 Only works from a normal machine; the NBA blocks curl and cloud egress. See `scripts/CONTEXT.md`.

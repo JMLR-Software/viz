@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { decodeShots, pct, zonePercentages } from "../../web/lib/data.js";
-import type { ShotTuple } from "../../web/lib/data.js";
+import { decodeShots, pct, zonePercentages } from "../../../web/shots/lib/data.js";
+import type { ShotTuple } from "../../../web/shots/lib/data.js";
 
 const rows: ShotTuple[] = [
   [47, 32, 1, 1, 5, 1, "20251023"],
