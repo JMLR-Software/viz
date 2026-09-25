@@ -68,3 +68,17 @@ test("a failed data load shows the error and retries", async ({ page }) => {
   await expect(page.locator("#map")).toHaveAttribute("data-drawn", "true");
   await expect(page.locator(".load-error")).toBeHidden();
 });
+
+test("the legend names the count and its range, and follows the EF3+ toggle", async ({ page }) => {
+  await page.goto("/tornadoes/");
+  const legend = page.locator("#legend");
+  await expect(legend.locator(".legend-title")).toHaveText("Tornadoes per county since 1950");
+  await expect(legend.locator(".legend-none")).toHaveText("0");
+  const top = legend.locator(".legend-tick").last();
+  await expect(top).toHaveText(/^\d+\+$/);
+  const allTop = Number((await top.textContent())!.slice(0, -1));
+  await page.locator("#strong").check();
+  await expect(legend.locator(".legend-title")).toHaveText("EF3+ tornadoes per county since 1950");
+  await expect(top).not.toHaveText(`${allTop}+`);
+  expect(Number((await top.textContent())!.slice(0, -1))).toBeLessThan(allTop);
+});

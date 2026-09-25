@@ -12,6 +12,8 @@ export interface County {
 
 export interface Heat {
   cumulative: ReadonlyMap<string, Int32Array>;
+  /** The colour domain's top; counts above it share its colour. */
+  max: number;
   color: (count: number) => string;
 }
 

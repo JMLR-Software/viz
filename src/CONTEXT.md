@@ -32,11 +32,13 @@ src/
 │       ├── config.ts        every constant: field order, map frame, timing, colours, track widths, data budget
 │       ├── index.ts         DOM wiring: load, controls (disabled until the data is in), animation loop
 │       ├── draw.ts          drawFrame (county heat, state lines, track flashes), countyAt (tap hit-test)
+│       ├── legend.ts        renderLegend: the colour key under the map (follows the EF3+ toggle)
 │       └── lib/             pure functions, unit-tested
 │           ├── data.ts      TornadoFile type, decodeTracks (points, off-map drops)
 │           ├── totals.ts    buildCumulative, countAt, maxFinal
 │           ├── timeline.ts  positionAt, yearIndexAt, positionForYearIndex, trackAlpha
-│           └── scale.ts     heatScale, trackWidth
+│           ├── scale.ts     heatScale, trackWidth
+│           └── legend.ts    legendTicks, legendStops (same square-root scale as the heat)
 └── test/
     ├── unit/<area>/         Vitest, one file per lib module (shell, shots, worker, …)
     └── e2e/                 Playwright flows (shell.spec.ts, shots.spec.ts, tornadoes.spec.ts)

@@ -8,6 +8,7 @@ import {
   ALBERS_SCALE, ALBERS_TRANSLATE, DATA_BASE, EMPTY_FILL, HEAT_PERCENTILE, HOLD_MS, MAP_HEIGHT, MAP_WIDTH, PLAY_MS,
 } from "./config.js";
 import { countyAt, drawFrame } from "./draw.js";
+import { renderLegend } from "./legend.js";
 import type { County, Scene } from "./draw.js";
 import { decodeTracks } from "./lib/data.js";
 import type { Project, TornadoFile } from "./lib/data.js";
@@ -29,6 +30,7 @@ const playButton = el<HTMLButtonElement>("play");
 const yearInput = el<HTMLInputElement>("year");
 const strongInput = el<HTMLInputElement>("strong");
 const countyInfo = el("county-info");
+const legend = el("legend");
 const errorBox = document.querySelector<HTMLElement>(".load-error");
 if (!errorBox) throw new Error("missing .load-error");
 const ctxOrNull = canvas.getContext("2d");
@@ -59,13 +61,15 @@ function buildScene(file: TornadoFile, topo: CountiesTopology): Scene {
   if (dropped > 0) console.info(`tornadoes: ${dropped} tracks outside the US map (PR, VI) not drawn`);
   const allCum = buildCumulative(file.counties, years, false);
   const strongCum = buildCumulative(file.counties, years, true);
+  const allMax = maxFinal(allCum, HEAT_PERCENTILE);
+  const strongMax = maxFinal(strongCum, HEAT_PERCENTILE);
   return {
     years,
     counties,
     states,
     tracks: byYear,
-    all: { cumulative: allCum, color: heatScale(maxFinal(allCum, HEAT_PERCENTILE), EMPTY_FILL) },
-    strong: { cumulative: strongCum, color: heatScale(maxFinal(strongCum, HEAT_PERCENTILE), EMPTY_FILL) },
+    all: { cumulative: allCum, max: allMax, color: heatScale(allMax, EMPTY_FILL) },
+    strong: { cumulative: strongCum, max: strongMax, color: heatScale(strongMax, EMPTY_FILL) },
   };
 }
 
@@ -122,8 +126,10 @@ function run(file: TornadoFile, scene: Scene): void {
     position = positionForYearIndex(Number(yearInput.value));
     render();
   });
+  const showLegend = (): void => renderLegend(legend, strongInput.checked ? scene.strong : scene.all, strongInput.checked);
   strongInput.addEventListener("change", () => {
     countyInfo.textContent = "";
+    showLegend();
     render();
   });
   canvas.addEventListener("click", (event) => {
@@ -148,6 +154,7 @@ function run(file: TornadoFile, scene: Scene): void {
 
   // The controls ship disabled, so input before the data arrives is not silently dropped.
   for (const control of [playButton, yearInput, strongInput]) control.disabled = false;
+  showLegend();
   setPlaying(playing);
   render();
 }

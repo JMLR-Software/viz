@@ -29,5 +29,9 @@ export const STATE_STROKE = "rgba(255, 255, 255, 0.28)";
 export const TRACK_WIDTH_BY_MAG = [0.5, 0.7, 1, 1.4, 1.9, 2.5] as const;
 export const UNKNOWN_TRACK_WIDTH = 0.5;
 
+/** Ticks on the colour key (d3 picks round values near this many), and gradient samples along its bar. */
+export const LEGEND_TICKS = 4;
+export const LEGEND_STOPS = 16;
+
 /** Spec §6: about 2 MB per showcase. tornadoes.json alone; the county atlas (~0.8 MB) is shared map geometry. */
 export const DATA_BUDGET_BYTES = 2_200_000;
