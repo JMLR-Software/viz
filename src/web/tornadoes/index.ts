@@ -3,6 +3,7 @@ import { feature, mesh } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import { mountShell } from "../shell/mount.js";
 import { REPO_URL } from "../shell/config.js";
+import { el, getJson, showLoadError, sourceLink } from "../shell/load.js";
 import { shouldAutoplay } from "../shell/lib/rec.js";
 import { createPlayer } from "../shell/player.js";
 import {
@@ -16,12 +17,6 @@ import type { Project, TornadoFile } from "./lib/data.js";
 import { heatScale } from "./lib/scale.js";
 import { positionForYearIndex, yearIndexAt } from "./lib/timeline.js";
 import { buildCumulative, countAt, maxFinal } from "./lib/totals.js";
-
-const el = <T extends HTMLElement>(id: string): T => {
-  const node = document.getElementById(id);
-  if (!node) throw new Error(`missing #${id}`);
-  return node as T;
-};
 
 const { rec, footerDetail } = mountShell("tornadoes");
 const canvas = el<HTMLCanvasElement>("map");
@@ -38,12 +33,6 @@ if (!ctxOrNull) throw new Error("canvas 2d unavailable");
 const ctx: CanvasRenderingContext2D = ctxOrNull;
 
 type CountiesTopology = Topology<{ counties: GeometryCollection<{ name: string }>; states: GeometryCollection<{ name: string }> }>;
-
-async function getJson<T>(path: string): Promise<T> {
-  const response = await fetch(`${DATA_BASE}/${path}`);
-  if (!response.ok) throw new Error(`${path} -> ${response.status}`);
-  return (await response.json()) as T;
-}
 
 function buildScene(file: TornadoFile, topo: CountiesTopology): Scene {
   const albers = geoAlbersUsa().scale(ALBERS_SCALE).translate([...ALBERS_TRANSLATE]);
@@ -142,31 +131,15 @@ async function start(): Promise<void> {
   errorBox!.hidden = true;
   try {
     const [file, topo] = await Promise.all([
-      getJson<TornadoFile>("tornadoes.json"),
-      getJson<CountiesTopology>("counties.json"),
+      getJson<TornadoFile>(DATA_BASE, "tornadoes.json"),
+      getJson<CountiesTopology>(DATA_BASE, "counties.json"),
     ]);
-    footerDetail.replaceChildren(`${file.source}, pulled ${file.generatedAt.slice(0, 10)}. `, sourceLink());
+    footerDetail.replaceChildren(`${file.source}, pulled ${file.generatedAt.slice(0, 10)}. `, sourceLink(REPO_URL));
     run(file, buildScene(file, topo));
   } catch (error) {
     console.error(error);
-    showLoadError();
+    showLoadError(errorBox!, "tornadoes", () => void start());
   }
-}
-
-function sourceLink(): HTMLAnchorElement {
-  const a = document.createElement("a");
-  a.href = REPO_URL;
-  a.textContent = "Source";
-  return a;
-}
-
-function showLoadError(): void {
-  const retry = document.createElement("button");
-  retry.type = "button";
-  retry.textContent = "Retry";
-  retry.addEventListener("click", () => void start(), { once: true });
-  errorBox!.replaceChildren("Couldn't load the tornadoes data.", retry);
-  errorBox!.hidden = false;
 }
 
 void start();

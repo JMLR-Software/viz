@@ -20,6 +20,12 @@ scripts/
 │   ├── fetch_quakes.py       download the USGS FDSN CSV (last 12 whole months, M4.5+) and the world-atlas land, write public/data/quakes/
 │   ├── test_fetch_quakes.py  pytest against the fixture, never the network
 │   └── fixtures/sample.csv   one row of each case: before the window, at its start, quoted place, duplicate id, quarry blast, no magnitude, at the exclusive end, the last minute
+├── scoring/
+│   ├── fetch_scoring.py       pull the all-time leaders and each one's season-by-season points, write public/data/scoring/scoring.json
+│   ├── test_fetch_scoring.py  pytest against the fixtures, never the network
+│   ├── fixtures/leaders.json  sample all-time-leaders response
+│   ├── fixtures/careers.json  sample per-player career-stats response, a traded season included
+│   └── .cache/                every player's response, one file per id, git-ignored, so a rerun resumes
 ├── requirements.txt     pinned: nba_api, pytest
 └── .venv/               git-ignored, python3.12
 ```
@@ -30,6 +36,7 @@ scripts/
 - **Fetch:** `pnpm data:fetch:shots`. Takes about two minutes (56 calls, 1 s apart). On any player failing three times it exits non-zero and writes nothing.
 - **Fetch tornadoes:** `pnpm data:fetch:tornadoes` (two downloads, a few seconds). Exits non-zero and writes nothing on a missing column, an empty file or a failed download.
 - **Fetch quakes:** `pnpm data:fetch:quakes` (two downloads, seconds). The window is the 12 whole months before the current month; re-fetching moves it, and the registry hook must be updated to match (the contract test fails until it is).
+- **Fetch scoring:** `pnpm data:fetch:scoring` (501 calls, 1 s apart, about ten minutes; cached per player in `scripts/scoring/.cache/`, git-ignored, so a rerun resumes; delete the folder to refresh). Exits non-zero and writes nothing if a career does not add up or no season's top 10 is complete.
 - **Test:** `pnpm data:test`.
 - After a fetch, commit `public/data/shots/` in the same commit as any roster change.
 
@@ -43,6 +50,8 @@ scripts/
 - Tornadoes: `FIPS_REMAP` handles county renames; `unmatchedCountyRefs` is the rest.
 - Tornadoes: `TRACK_FIELDS` and `COUNTY_FIELDS` must match `src/web/tornadoes/config.ts`.
 - Quakes: `EVENT_FIELDS` must match `src/web/quakes/config.ts`.
+- Scoring: a traded season's `TOT` row is the season; team rows are ignored.
+- Scoring: the start season is decided by the script and checked again by the TypeScript contract test; never set it by hand.
 
 ## What to avoid
 

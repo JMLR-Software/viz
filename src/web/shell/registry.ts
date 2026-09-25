@@ -7,7 +7,7 @@ export interface Showcase {
   credit: string;
 }
 
-/** Built showcases only. Parked ones (flights, scoring) are added when they ship. */
+/** Built showcases only. Flights, still parked, is added when it ships. */
 export const SHOWCASES: readonly Showcase[] = [
   {
     slug: "shots",
@@ -26,6 +26,12 @@ export const SHOWCASES: readonly Showcase[] = [
     title: "Earthquakes",
     hook: "Every M4.5+ earthquake, Sep 2025 – Aug 2026",
     credit: "Data: USGS Earthquake Hazards Program. Not affiliated with the USGS.",
+  },
+  {
+    slug: "scoring",
+    title: "NBA Scoring Race",
+    hook: "The NBA's all-time scoring list, season by season",
+    credit: "Data: NBA.com/stats via nba_api. Not affiliated with the NBA.",
   },
 ];
 

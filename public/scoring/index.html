@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The NBA's all-time scoring race · viz</title>
+    <meta name="description" content="The NBA's all-time regular-season scoring list, replayed season by season as a bar chart race." />
+    <link rel="stylesheet" href="/viz.css" />
+    <link rel="stylesheet" href="/scoring/scoring.css" />
+    <script type="module" src="/js/pages/scoring.js" blocking="render"></script>
+  </head>
+  <body>
+    <header id="viz-header"></header>
+    <main>
+      <div class="stage">
+        <output id="season-label" aria-live="off"></output>
+        <canvas id="race" role="img" aria-label="Bar chart race of the NBA's top ten career scorers, season by season"></canvas>
+      </div>
+      <div class="controls">
+        <button id="play" type="button" disabled>Pause</button>
+        <input id="season" type="range" step="1" aria-label="Season" disabled />
+      </div>
+      <p id="start-note"></p>
+      <p class="load-error" role="alert" hidden></p>
+    </main>
+    <footer id="footer"></footer>
+  </body>
+</html>

@@ -49,9 +49,15 @@ src/
 │           ├── globe.ts     rotationAt, applyDrag, onNearSide
 │           ├── ripple.ts    dotRadius, rippleDays, markAt
 │           └── filter.ts    atLeast, countThrough
+│   └── scoring/             canvas: a bar chart race, redrawn every frame
+│       ├── config.ts        every constant: race frame, row/pad sizing, timing, fonts, colours, data budget
+│       ├── index.ts         DOM wiring: load, controls (disabled until the data is in), animation loop
+│       ├── draw.ts          drawRace (bars scaled to the leader, names inside long bars, points labels)
+│       └── lib/             pure functions, unit-tested
+│           └── race.ts      cumulativeTotals, rankAt, buildRace, firstCompleteSeason, barsAt, seasonIndexAt, startNote
 └── test/
     ├── unit/<area>/         Vitest, one file per lib module (shell, shots, worker, …)
-    └── e2e/                 Playwright flows (shell.spec.ts, shots.spec.ts, tornadoes.spec.ts, quakes.spec.ts)
+    └── e2e/                 Playwright flows (shell.spec.ts, shots.spec.ts, tornadoes.spec.ts, quakes.spec.ts, scoring.spec.ts)
 ```
 
 ## Key workflows
