@@ -16,6 +16,10 @@ scripts/
 │   ├── fetch_tornadoes.py       download the SPC CSV and the us-atlas counties, write public/data/tornadoes/
 │   ├── test_fetch_tornadoes.py  pytest against the fixture, never the network
 │   └── fixtures/sample.csv      one row of each case: single-state, point, MO→IL multi-state, continuation, unknown rating, renamed county, Puerto Rico
+├── quakes/
+│   ├── fetch_quakes.py       download the USGS FDSN CSV (last 12 whole months, M4.5+) and the world-atlas land, write public/data/quakes/
+│   ├── test_fetch_quakes.py  pytest against the fixture, never the network
+│   └── fixtures/sample.csv   one row of each case: before the window, at its start, quoted place, duplicate id, quarry blast, no magnitude, at the exclusive end, the last minute
 ├── requirements.txt     pinned: nba_api, pytest
 └── .venv/               git-ignored, python3.12
 ```
@@ -25,6 +29,7 @@ scripts/
 - **Set up:** `pnpm data:setup` (creates `scripts/.venv` with `/opt/homebrew/bin/python3.12` and installs requirements).
 - **Fetch:** `pnpm data:fetch:shots`. Takes about two minutes (56 calls, 1 s apart). On any player failing three times it exits non-zero and writes nothing.
 - **Fetch tornadoes:** `pnpm data:fetch:tornadoes` (two downloads, a few seconds). Exits non-zero and writes nothing on a missing column, an empty file or a failed download.
+- **Fetch quakes:** `pnpm data:fetch:quakes` (two downloads, seconds). The window is the 12 whole months before the current month; re-fetching moves it, and the registry hook must be updated to match (the contract test fails until it is).
 - **Test:** `pnpm data:test`.
 - After a fetch, commit `public/data/shots/` in the same commit as any roster change.
 
@@ -37,6 +42,7 @@ scripts/
 - Tornadoes: tracks come from `sg=1` rows, county counts from `sn=1` rows.
 - Tornadoes: `FIPS_REMAP` handles county renames; `unmatchedCountyRefs` is the rest.
 - Tornadoes: `TRACK_FIELDS` and `COUNTY_FIELDS` must match `src/web/tornadoes/config.ts`.
+- Quakes: `EVENT_FIELDS` must match `src/web/quakes/config.ts`.
 
 ## What to avoid
 

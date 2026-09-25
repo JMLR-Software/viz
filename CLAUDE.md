@@ -1,6 +1,6 @@
 # viz
 
-A small gallery of D3 data visualisations, made for reels: a dropdown in the header switches between showcases, each a page of its own with a one-line hook, and `?rec` locks any page into a 9:16 frame for recording. Every number comes from a named public source. The live showcases are All-Star Shots (`/shots`) and every US tornado since 1950 (`/tornadoes`); quakes, flights and the scoring race are parked. Live at https://viz.jmlr.dev; https://shots.jmlr.dev redirects to `/shots`.
+A small gallery of D3 data visualisations, made for reels: a dropdown in the header switches between showcases, each a page of its own with a one-line hook, and `?rec` locks any page into a 9:16 frame for recording. Every number comes from a named public source. The live showcases are All-Star Shots (`/shots`), every US tornado since 1950 (`/tornadoes`) and a year of M4.5+ earthquakes (`/quakes`); the scoring race and flights are being built. Live at https://viz.jmlr.dev; https://shots.jmlr.dev redirects to `/shots`.
 
 **Stack.** A static multi-page site (TypeScript + D3, one esbuild entry per page, shared chunks), and a Worker that redirects, sets headers and serves assets. Data is pulled on a laptop by the Python scripts under `scripts/` and committed under `public/data/<slug>/`. pnpm, Wrangler, Vitest, Playwright, pytest.
 
@@ -29,7 +29,8 @@ viz/
 | Change what the court or table shows | `src/` | `CONTEXT.md`, then `src/web/shots/lib/` for math, `src/web/shots/` for DOM | `scripts/` |
 | Colours, hex size, thresholds | `src/` | `src/web/shots/config.ts` | everything else |
 | Change the tornado map | `src/` | `src/web/tornadoes/config.ts`, then `src/web/tornadoes/lib/` | `scripts/` |
-| Add a player or refresh the data | `scripts/` | `CONTEXT.md`, then `scripts/shots/roster.json` (tornadoes: `pnpm data:fetch:tornadoes`) | `src/`, nothing there knows player names |
+| Change the quake globe | `src/` | `src/web/quakes/config.ts`, then `src/web/quakes/lib/` | `scripts/` |
+| Add a player or refresh the data | `scripts/` | `CONTEXT.md`, then `scripts/shots/roster.json` (tornadoes: `pnpm data:fetch:tornadoes`; quakes: `pnpm data:fetch:quakes`) | `src/`, nothing there knows player names |
 | Data file shape | `docs/` | spec §5 | guessing from `public/data/shots/` |
 | Deploy | `src/` | `CONTEXT.md` deploy section | — |
 | Add a showcase | `src/` | `src/web/shell/registry.ts`, then `src/CONTEXT.md` | the other showcases' folders |

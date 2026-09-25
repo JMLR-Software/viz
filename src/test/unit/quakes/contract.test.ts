@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 import { DATA_BUDGET_BYTES, EVENT_FIELDS, MIN_MAG } from "../../../web/quakes/config.js";
 import { decodeEvents, windowDays } from "../../../web/quakes/lib/data.js";
 import type { QuakeFile } from "../../../web/quakes/lib/data.js";
+import { showcaseFor } from "../../../web/shell/registry.js";
+import { windowLabel } from "../../../web/quakes/lib/window.js";
 
 const PATH = "public/data/quakes/quakes.json";
 const LAND = "public/data/quakes/land.json";
@@ -38,5 +40,9 @@ describe("the quake data contract", () => {
 
   it("stays inside the data budget", () => {
     expect(statSync(PATH).size + statSync(LAND).size).toBeLessThanOrEqual(DATA_BUDGET_BYTES);
+  });
+
+  it("states the data's window in the registry hook (spec §6.3: the data does not refresh itself)", () => {
+    expect(showcaseFor("quakes").hook).toContain(windowLabel(file.start, file.end));
   });
 });

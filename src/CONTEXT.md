@@ -39,9 +39,19 @@ src/
 │           ├── totals.ts    buildCumulative, countAt, maxFinal
 │           ├── timeline.ts  yearIndexAt, positionForYearIndex, trackAlpha
 │           └── scale.ts     heatScale, trackWidth
+│   └── quakes/               canvas: a turning orthographic globe, redrawn every frame
+│       ├── config.ts        every constant: field order, globe frame, timing, magnitude/ripple sizing, colours, data budget
+│       ├── index.ts         DOM wiring: load, controls (disabled until the data is in), drag, animation loop
+│       ├── draw.ts          makeGlobe (projection, path, land, graticule), drawGlobe (ocean, graticule, land, rim, ripples)
+│       └── lib/             pure functions, unit-tested
+│           ├── data.ts      QuakeFile type, decodeEvents, windowDays
+│           ├── window.ts    windowLabel, monthLabel, monthAt
+│           ├── globe.ts     rotationAt, applyDrag, onNearSide
+│           ├── ripple.ts    dotRadius, rippleDays, markAt
+│           └── filter.ts    atLeast, countThrough
 └── test/
     ├── unit/<area>/         Vitest, one file per lib module (shell, shots, worker, …)
-    └── e2e/                 Playwright flows (shell.spec.ts, shots.spec.ts, tornadoes.spec.ts)
+    └── e2e/                 Playwright flows (shell.spec.ts, shots.spec.ts, tornadoes.spec.ts, quakes.spec.ts)
 ```
 
 ## Key workflows

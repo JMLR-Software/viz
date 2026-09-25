@@ -2,7 +2,7 @@
 
 A small gallery of D3 data visualisations on real public data, made for reels. Pick a showcase from the dropdown; add `?rec` to any URL for a 9:16 recording frame. The first showcase, All-Star Shots (`/shots`), is where the 2026 NBA All-Stars shot from during the 2025-26 season: a half-court hex heat map per player (or for the whole pool), by frequency or by efficiency against the All-Star average, with a zone table underneath.
 
-**Status (2026-09-24):** the gallery shell, All-Star Shots and tornadoes are live at https://viz.jmlr.dev.
+**Status (2026-09-25):** the gallery shell, All-Star Shots, tornadoes and quakes are live at https://viz.jmlr.dev.
 
 Live: https://viz.jmlr.dev (https://shots.jmlr.dev redirects to `/shots`)
 
