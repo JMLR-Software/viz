@@ -9,14 +9,14 @@ A small gallery of D3 data visualisations, made for reels: a dropdown in the hea
 ## Workspaces
 
 ```
-allstar-shots/
+viz/
 ├── CLAUDE.md          this file — read first, routes to workspaces
 ├── README.md          what this is, how to run it, status
-├── src/               the frontend (src/web) and its tests (src/test)
+├── src/               the Worker (worker.ts, headers.ts, redirect.ts), the frontend (src/web) and its tests (src/test)
 │   └── CONTEXT.md
 ├── scripts/           the data pipeline: roster, fetch script, pytest
 │   └── CONTEXT.md
-├── public/            shots/ (index.html, shots.css), generated data/<slug>/ and js/
+├── public/            index.html + home.css (the grid), viz.css (the shell), <slug>/ pages, generated data/<slug>/ and js/
 └── docs/              specs and plans; the design spec is the contract
     └── CONTEXT.md
 ```
@@ -25,7 +25,7 @@ allstar-shots/
 
 | Task | Workspace | Start with | Skip |
 |---|---|---|---|
-| Why does it work this way? | `docs/` | `superpowers/specs/2026-09-13-allstar-shots-design.md` | `src/`, the spec explains the code |
+| Why does it work this way? | `docs/` | `superpowers/specs/2026-09-24-viz-showcase-design.md` (the gallery), `2026-09-13-allstar-shots-design.md` (shots) | `src/`, the specs explain the code |
 | Change what the court or table shows | `src/` | `CONTEXT.md`, then `src/web/shots/lib/` for math, `src/web/shots/` for DOM | `scripts/` |
 | Colours, hex size, thresholds | `src/` | `src/web/shots/config.ts` | everything else |
 | Add a player or refresh the data | `scripts/` | `CONTEXT.md`, then `scripts/shots/roster.json` | `src/`, nothing there knows player names |

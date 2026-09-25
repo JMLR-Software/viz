@@ -44,6 +44,7 @@ button { font: inherit; color: inherit; background: var(--panel); border: 1px so
 footer { padding: 16px 24px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--line); }
 footer a { color: inherit; }
 
+/* Full-page load error with a Retry button; used by the tornadoes page (shots keeps its inline #error). */
 .load-error { margin: 24px; color: var(--accent); }
 .load-error button { margin-left: 8px; }
 

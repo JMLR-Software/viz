@@ -1910,7 +1910,7 @@ Expected: FAIL (404 on `/tornadoes/`).
     <meta name="description" content="Every tornado NOAA recorded in the US since 1950, county by county, year by year." />
     <link rel="stylesheet" href="/viz.css" />
     <link rel="stylesheet" href="/tornadoes/tornadoes.css" />
-    <script type="module" src="/js/pages/tornadoes.js"></script>
+    <script type="module" src="/js/pages/tornadoes.js" blocking="render"></script>
   </head>
   <body>
     <header id="viz-header"></header>

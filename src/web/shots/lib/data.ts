@@ -1,7 +1,7 @@
 export type SeasonType = "regular" | "playoffs";
 export type ResultFilter = "all" | "made" | "missed";
 
-/** [x, y, made, zone, distance, period, date] as written by scripts/fetch_shots.py. */
+/** [x, y, made, zone, distance, period, date] as written by scripts/shots/fetch_shots.py. */
 export type ShotTuple = [number, number, number, number, number, number, string];
 
 export interface Shot {

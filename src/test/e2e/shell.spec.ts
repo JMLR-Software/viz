@@ -68,6 +68,9 @@ test("the Worker sends the CSP and cache headers on real responses", async ({ re
   expect((await request.get(`/js/${chunk}`)).headers()["cache-control"]).toContain("immutable");
   const missing = await request.get("/nope/");
   expect(missing.headers()["content-security-policy"]).toContain("default-src 'self'");
+  const missingData = await request.get("/data/shots/players/1.json");
+  expect(missingData.status()).toBe(404);
+  expect(missingData.headers()["cache-control"] ?? "").not.toContain("immutable");
 });
 
 test("after Back, the dropdown names the page again and still navigates", async ({ page }) => {
