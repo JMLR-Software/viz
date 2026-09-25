@@ -105,10 +105,11 @@ function run(file: QuakeFile, topo: LandTopology): void {
     showMag();
     player.redraw();
   });
-  window.addEventListener("resize", () => {
+  // Watch the canvas, not the window: in record mode its box settles after the header mounts.
+  new ResizeObserver(() => {
     sizeCanvas();
     player.redraw();
-  });
+  }).observe(canvas);
 
   // The controls ship disabled, so input before the data arrives is not silently dropped.
   for (const control of [playButton, magInput]) control.disabled = false;

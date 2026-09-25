@@ -80,3 +80,21 @@ test("a failed data load shows the error and retries", async ({ page }) => {
   await expect(page.locator("#globe")).toHaveAttribute("data-drawn", "true");
   await expect(page.locator(".load-error")).toBeHidden();
 });
+
+test("record mode fits the phone frame: nothing under the header or the footer", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/quakes/?rec");
+  await expect(page.locator("#globe")).toHaveAttribute("data-drawn", "true");
+  const box = async (sel: string) => (await page.locator(sel).boundingBox())!;
+  const header = await box("#viz-header");
+  const footer = await box("footer");
+  expect((await box("#date-label")).y).toBeGreaterThanOrEqual(header.y + header.height);
+  for (const sel of ["#globe", "#min-mag"]) {
+    const b = await box(sel);
+    expect(b.y + b.height).toBeLessThanOrEqual(footer.y);
+  }
+  const globe = await box("#globe");
+  expect(globe.width).toBeCloseTo(globe.height, 0);
+  // The backing store follows the box after layout settles, so the globe is neither blurry nor oversized.
+  await expect.poll(() => page.locator("#globe").evaluate((c: HTMLCanvasElement) => c.width - c.clientWidth)).toBe(0);
+});
