@@ -13,6 +13,7 @@
     "data:setup": "/opt/homebrew/bin/python3.12 -m venv scripts/.venv && scripts/.venv/bin/pip install -q -r scripts/requirements.txt",
     "data:fetch:shots": "scripts/.venv/bin/python scripts/shots/fetch_shots.py",
     "data:fetch:tornadoes": "scripts/.venv/bin/python scripts/tornadoes/fetch_tornadoes.py",
+    "data:fetch:quakes": "scripts/.venv/bin/python scripts/quakes/fetch_quakes.py",
     "data:test": "scripts/.venv/bin/python -m pytest scripts -q",
     "deploy": "pnpm test && NODE_ENV=production pnpm build:web && wrangler deploy"
   },

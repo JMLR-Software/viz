@@ -1,0 +1,10 @@
+time,latitude,longitude,depth,mag,magType,nst,gap,dmin,rms,net,id,updated,place,type,horizontalError,depthError,magError,magNst,status,locationSource,magSource
+2025-08-31T23:59:59.000Z,10.0,20.0,10,4.6,mb,,,,,us,us0001,2025-09-02T00:00:00.000Z,"before the window",earthquake,,,,,reviewed,us,us
+2025-09-01T00:00:00.000Z,-57.29,-25.52,35,4.5,mb,20,114,19.591,0.98,us,us0002,2025-09-02T00:00:00.000Z,"South Sandwich Islands region",earthquake,,,,,reviewed,us,us
+2025-09-01T01:30:30.500Z,18.93,39.14,10.4,4.8,mww,68,76,6.638,0.99,us,us0003,2025-09-02T00:00:00.000Z,"159 km ENE of Tokār, Sudan",earthquake,,,,,reviewed,us,us
+2026-08-31T23:59:00.000Z,-15.5,-179.99,600,5.2,mb,,,,,us,us0009,2026-09-02T00:00:00.000Z,"Fiji region",earthquake,,,,,reviewed,us,us
+2026-03-15T12:00:00.000Z,38.30,142.37,29.6,7.1,mww,,,,,us,us0004,2026-03-16T00:00:00.000Z,"off the east coast of Honshu, Japan",earthquake,,,,,reviewed,us,us
+2026-03-15T12:00:00.000Z,38.30,142.37,29.6,7.1,mww,,,,,us,us0004,2026-03-16T00:00:00.000Z,"off the east coast of Honshu, Japan",earthquake,,,,,reviewed,us,us
+2026-04-01T00:00:00.000Z,40.0,-110.0,0,4.6,ml,,,,,us,us0006,2026-04-02T00:00:00.000Z,"a mine",quarry blast,,,,,reviewed,us,us
+2026-05-01T00:00:00.000Z,1.0,1.0,10,,mb,,,,,us,us0007,2026-05-02T00:00:00.000Z,"no magnitude",earthquake,,,,,reviewed,us,us
+2026-09-01T00:00:00.000Z,5.0,5.0,10,4.9,mb,,,,,us,us0008,2026-09-02T00:00:00.000Z,"at the end",earthquake,,,,,reviewed,us,us
