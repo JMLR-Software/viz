@@ -7,7 +7,7 @@ export interface Showcase {
   credit: string;
 }
 
-/** Built showcases only. Parked ones (quakes, flights, scoring) are added when they ship. */
+/** Built showcases only. Parked ones (flights, scoring) are added when they ship. */
 export const SHOWCASES: readonly Showcase[] = [
   {
     slug: "shots",
@@ -20,6 +20,12 @@ export const SHOWCASES: readonly Showcase[] = [
     title: "US Tornadoes",
     hook: "Every US tornado since 1950",
     credit: "Data: NOAA Storm Prediction Center severe weather database. Not affiliated with NOAA.",
+  },
+  {
+    slug: "quakes",
+    title: "Earthquakes",
+    hook: "Every M4.5+ earthquake, Sep 2025 – Aug 2026",
+    credit: "Data: USGS Earthquake Hazards Program. Not affiliated with the USGS.",
   },
 ];
 
