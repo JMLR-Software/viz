@@ -1,0 +1,20 @@
+main { padding: 16px 24px; }
+.stage { position: relative; max-width: 960px; margin: 0 auto; }
+#race { display: block; width: 100%; height: auto; aspect-ratio: 900 / 656; }
+#season-label { position: absolute; right: 8px; bottom: 8px; font-size: 56px; font-weight: 800; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--muted); pointer-events: none; }
+.controls { display: flex; align-items: center; gap: 12px 16px; max-width: 960px; margin: 8px auto 0; color: var(--muted); }
+#season { flex: 1; min-width: 160px; accent-color: var(--accent); }
+#start-note { max-width: 960px; margin: 8px auto 0; color: var(--muted); font-size: 13px; }
+/* Below this width the fixed-position label would reach into the bottom rows; lay it out like record mode instead. */
+@media (max-width: 720px) {
+  #season-label { position: static; display: block; text-align: right; font-size: clamp(28px, 7vw, 56px); }
+}
+html.rec main { padding: 8px 12px; display: flex; flex-direction: column; justify-content: center; }
+/* Taller aspect ratio than #race's default, to match config.ts's REC_RACE_HEIGHT (RACE_WIDTH / REC_RACE_HEIGHT = 900 / 1016). */
+html.rec #race { aspect-ratio: 900 / 1016; width: min(100cqw, 100cqh * 900 / 1016); }
+/* The chart takes the height left under the season label, as quakes' globe does, so the frame never overflows.
+   The stage stretches to full width: otherwise it shrinks to the canvas's backing store and the layout depends on devicePixelRatio. */
+html.rec .stage { flex: 1; min-height: 0; width: 100%; display: flex; flex-direction: column; }
+html.rec .race-box { flex: 1; min-height: 0; container-type: size; display: flex; justify-content: center; align-items: center; }
+html.rec #season-label { position: static; display: block; text-align: center; font-size: 64px; color: var(--ink); }
+html.rec #start-note { display: none; }

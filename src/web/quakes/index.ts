@@ -2,6 +2,7 @@ import type { GeoPermissibleObjects } from "d3-geo";
 import { feature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import { REPO_URL } from "../shell/config.js";
+import { el, getJson, showLoadError, sourceLink } from "../shell/load.js";
 import { shouldAutoplay } from "../shell/lib/rec.js";
 import { mountShell } from "../shell/mount.js";
 import { createPlayer } from "../shell/player.js";
@@ -13,12 +14,6 @@ import { atLeast, countThrough } from "./lib/filter.js";
 import { applyDrag, rotationAt } from "./lib/globe.js";
 import type { Drag } from "./lib/globe.js";
 import { monthAt, windowLabel } from "./lib/window.js";
-
-const el = <T extends HTMLElement>(id: string): T => {
-  const node = document.getElementById(id);
-  if (!node) throw new Error(`missing #${id}`);
-  return node as T;
-};
 
 const { rec, footerDetail } = mountShell("quakes");
 const canvas = el<HTMLCanvasElement>("globe");
@@ -41,12 +36,6 @@ magInput.max = String(MAX_SLIDER_MAG);
 magInput.value = String(MIN_MAG);
 
 type LandTopology = Topology<{ land: GeometryCollection }>;
-
-async function getJson<T>(path: string): Promise<T> {
-  const response = await fetch(`${DATA_BASE}/${path}`);
-  if (!response.ok) throw new Error(`${path} -> ${response.status}`);
-  return (await response.json()) as T;
-}
 
 function sizeCanvas(): void {
   const ratio = window.devicePixelRatio || 1;
@@ -119,32 +108,19 @@ function run(file: QuakeFile, topo: LandTopology): void {
 async function start(): Promise<void> {
   errorBox!.hidden = true;
   try {
-    const [file, topo] = await Promise.all([getJson<QuakeFile>("quakes.json"), getJson<LandTopology>("land.json")]);
+    const [file, topo] = await Promise.all([
+      getJson<QuakeFile>(DATA_BASE, "quakes.json"),
+      getJson<LandTopology>(DATA_BASE, "land.json"),
+    ]);
     footerDetail.replaceChildren(
       `${file.source}, ${windowLabel(file.start, file.end)}, pulled ${file.generatedAt.slice(0, 10)}. `,
-      sourceLink(),
+      sourceLink(REPO_URL),
     );
     run(file, topo);
   } catch (error) {
     console.error(error);
-    showLoadError();
+    showLoadError(errorBox!, "quakes", () => void start());
   }
-}
-
-function sourceLink(): HTMLAnchorElement {
-  const a = document.createElement("a");
-  a.href = REPO_URL;
-  a.textContent = "Source";
-  return a;
-}
-
-function showLoadError(): void {
-  const retry = document.createElement("button");
-  retry.type = "button";
-  retry.textContent = "Retry";
-  retry.addEventListener("click", () => void start(), { once: true });
-  errorBox!.replaceChildren("Couldn't load the quakes data.", retry);
-  errorBox!.hidden = false;
 }
 
 void start();
