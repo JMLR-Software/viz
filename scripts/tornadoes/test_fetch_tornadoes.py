@@ -6,7 +6,7 @@ import pytest
 import fetch_tornadoes as ft
 
 FIXTURE = (Path(__file__).parent / "fixtures" / "sample.csv").read_text(encoding="utf-8")
-VALID = {"40025", "37047", "29189", "17119", "12086", "12011"}
+VALID = {"40025", "37047", "29189", "29510", "17119", "12086", "12011"}
 
 
 def rows():
@@ -38,14 +38,15 @@ def test_a_tornado_with_no_end_point_is_a_point():
     assert tracks[0][7:9] == [0, 0]
 
 
-def test_counties_count_each_state_row_once_and_split_strong():
+def test_counties_count_each_tornado_once_per_county_and_split_strong():
     counties, _ = ft.build_counties(rows(), 1950, VALID)
     assert counties == {
         "40025": [[0, 1, 0]],
         "37047": [[0, 1, 1]],
-        "29189": [[1, 1, 1]],
+        "29189": [[1, 1, 1]],  # also on the -9 row: counted once
+        "29510": [[1, 1, 1]],  # fifth county on, only on the sg=-9 row
         "17119": [[1, 1, 1]],
-        "12086": [[1, 1, 0]],  # Dade 12025 renamed Miami-Dade 12086
+        "12086": [[1, 1, 0]],  # Dade 12025 renamed Miami-Dade 12086; listed twice, counted once
         "12011": [[1, 1, 0]],
     }
 

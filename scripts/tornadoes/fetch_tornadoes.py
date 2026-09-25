@@ -21,7 +21,7 @@ REQUEST_TIMEOUT = 60
 MIN_ATLAS_COUNTIES = 3000
 STRONG_MIN_MAG = 3
 UNKNOWN_MAG = -1
-REQUIRED_COLUMNS = ("yr", "mag", "stf", "slat", "slon", "elat", "elon", "sn", "sg", "f1", "f2", "f3", "f4")
+REQUIRED_COLUMNS = ("om", "yr", "date", "mag", "stf", "slat", "slon", "elat", "elon", "sn", "sg", "f1", "f2", "f3", "f4")
 COUNTY_COLUMNS = ("f1", "f2", "f3", "f4")
 TRACK_FIELDS = ["lat", "lon", "dlat", "dlon", "mag"]
 COUNTY_FIELDS = ["year", "all", "strong"]
@@ -74,13 +74,17 @@ def build_tracks(rows):
     return first, last, tracks
 
 
+def county_rows(rows):
+    """Per-state rows (sn == 1) and the rows carrying a tornado's fifth county on (sg == -9)."""
+    return (r for r in rows if r["sn"] == "1" or r["sg"] == "-9")
+
+
 def build_counties(rows, first_year, valid_fips):
-    """Count tornadoes per county per year from the per-state rows (sn == 1). Returns (counties, unmatched)."""
+    """Count tornadoes per county per year, once per tornado and county. Returns (counties, unmatched)."""
     counts = defaultdict(lambda: [0, 0])  # local accumulator; no input is mutated
+    seen = set()  # (yr, om, date, fips); (yr, om) alone is not unique in the SPC file
     unmatched = 0
-    for r in rows:
-        if r["sn"] != "1":
-            continue
+    for r in county_rows(rows):
         strong = 1 if magnitude(r["mag"]) >= STRONG_MIN_MAG else 0
         year = int(r["yr"]) - first_year
         for column in COUNTY_COLUMNS:
@@ -89,6 +93,10 @@ def build_counties(rows, first_year, valid_fips):
                 continue
             fips = f"{int(r['stf']):02d}{county:03d}"
             fips = FIPS_REMAP.get(fips, fips)
+            key = (r["yr"], r["om"], r["date"], fips)
+            if key in seen:
+                continue
+            seen.add(key)
             if fips not in valid_fips:
                 unmatched += 1
                 continue
