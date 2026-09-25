@@ -1,0 +1,6 @@
+#tiles { list-style: none; margin: 0; padding: 24px; display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+#tiles a { display: block; height: 100%; padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: inherit; text-decoration: none; }
+#tiles a:hover, #tiles a:focus-visible { border-color: var(--accent); }
+#tiles h2 { margin: 0 0 6px; font-size: 20px; }
+#tiles p { margin: 0; color: var(--muted); }
+html.rec #tiles { grid-template-columns: 1fr; }

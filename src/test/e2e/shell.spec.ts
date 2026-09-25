@@ -41,3 +41,19 @@ test("the footer credit comes from the registry", async ({ page }) => {
   await expect(page.locator("#footer .credit")).toContainText("Not affiliated with the NBA");
   await expect(page.locator("#footer .detail")).toContainText("Pulled");
 });
+
+test("/ shows one tile per showcase with its title and hook", async ({ page }) => {
+  await page.goto("/");
+  const options = await page.locator("#showcase option:not([disabled])").count();
+  await expect(page.locator("#tiles li")).toHaveCount(options);
+  await expect(page.locator("#tiles li").first()).toContainText("All-Star Shots");
+  await expect(page.locator("#footer .credit")).toContainText("Not affiliated");
+});
+
+test("a tile carries ?rec, and the wordmark goes home with it", async ({ page }) => {
+  await page.goto("/?rec");
+  await page.locator("#tiles a").first().click();
+  await expect(page).toHaveURL(/\/shots\/\?rec/);
+  await page.locator("#viz-header .wordmark").click();
+  await expect(page).toHaveURL(/\/\?rec$/);
+});
