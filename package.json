@@ -12,24 +12,35 @@
     "typecheck": "tsc --noEmit",
     "data:setup": "/opt/homebrew/bin/python3.12 -m venv scripts/.venv && scripts/.venv/bin/pip install -q -r scripts/requirements.txt",
     "data:fetch:shots": "scripts/.venv/bin/python scripts/shots/fetch_shots.py",
+    "data:fetch:tornadoes": "scripts/.venv/bin/python scripts/tornadoes/fetch_tornadoes.py",
     "data:test": "scripts/.venv/bin/python -m pytest scripts -q",
     "deploy": "pnpm test && NODE_ENV=production pnpm build:web && wrangler deploy"
   },
   "packageManager": "pnpm@10.17.1",
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild", "workerd"]
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "workerd"
+    ]
   },
   "dependencies": {
     "d3-array": "^3.2.4",
+    "d3-geo": "^3.1.1",
     "d3-hexbin": "^0.2.2",
-    "d3-scale-chromatic": "^3.1.0"
+    "d3-scale": "^4.0.2",
+    "d3-scale-chromatic": "^3.1.0",
+    "topojson-client": "^3.1.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
     "@types/d3-array": "^3.2.1",
+    "@types/d3-geo": "^3.1.1",
     "@types/d3-hexbin": "^0.2.5",
+    "@types/d3-scale": "^4.0.9",
     "@types/d3-scale-chromatic": "^3.0.3",
     "@types/node": "^22.20.2",
+    "@types/topojson-client": "^3.1.5",
+    "@types/topojson-specification": "^1.0.5",
     "@vitest/coverage-istanbul": "^3.2.7",
     "esbuild": "^0.28.2",
     "typescript": "^7.0.2",

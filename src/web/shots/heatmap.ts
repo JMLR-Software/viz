@@ -2,9 +2,10 @@ import { DELTA_CLAMP, EFFICIENCY_CONFIDENT_SHOTS, FREQ_PERCENTILE, RADIUS_FLOOR 
 import { COURT_WIDTH, courtToSvg } from "./lib/court.js";
 import { deltaFor } from "./lib/hexes.js";
 import type { HexBin } from "./lib/hexes.js";
+import type { Mode } from "./lib/legend.js";
 import { clampDelta, confidenceOpacity, efficiencyColor, frequencyCap, frequencyColor, hexRadius } from "./lib/scales.js";
 
-export type Mode = "frequency" | "efficiency";
+export type { Mode } from "./lib/legend.js";
 
 const NS = "http://www.w3.org/2000/svg";
 
@@ -33,7 +34,7 @@ function tooltipText(bin: HexBin, mode: Mode): string {
   return `${made} · ${fg}\n${sign}${percent(Math.abs(d))} vs All-Stars from this zone`;
 }
 
-/** Replace the heat map layer with hexagons for these bins. */
+/** Replace the heat map layer with hexagons for these bins. Returns the frequency cap the colours used. */
 export function drawHexes(
   svg: SVGSVGElement,
   tooltip: HTMLElement,
@@ -41,15 +42,15 @@ export function drawHexes(
   mode: Mode,
   width: number,
   gridRadius: number,
-): void {
+): number {
   svg.querySelector(".hexes")?.remove();
   tooltip.hidden = true;
-  if (bins.length === 0) return;
+  // Same cap for both modes: one huge bin should not flatten every other hex's colour or size.
+  const cap = frequencyCap(bins, FREQ_PERCENTILE);
+  if (bins.length === 0) return cap;
 
   const radius = gridRadius * (width / COURT_WIDTH);
   const svgH = svg.viewBox.baseVal.height || width;
-  // Same cap for both modes: one huge bin should not flatten every other hex's colour or size.
-  const cap = frequencyCap(bins, FREQ_PERCENTILE);
 
   const layer = document.createElementNS(NS, "g");
   layer.setAttribute("class", "hexes");
@@ -85,15 +86,5 @@ export function drawHexes(
   }
 
   svg.appendChild(layer);
-}
-
-/** `isPool` is true for the combined "All All-Stars" view, where efficiency is unavailable. */
-export function legendText(mode: Mode, isPool: boolean): string {
-  const frequency = "Colour is how often this spot was shot from — pale yellow is rare, deep red is a favourite.";
-  if (isPool) {
-    return `${frequency} Efficiency is unavailable here: the All-Star average is the baseline, so All All-Stars can't be compared with itself.`;
-  }
-  return mode === "frequency"
-    ? frequency
-    : "Colour is field goal percentage against the All-Star average from the same zones — red is better, blue is worse. Size is volume, faded for low-sample hexes. This player's own shots are included in that average.";
+  return cap;
 }

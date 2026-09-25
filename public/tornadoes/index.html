@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Every US tornado since 1950 · viz</title>
+    <meta name="description" content="Every tornado NOAA recorded in the US since 1950, county by county, year by year." />
+    <link rel="stylesheet" href="/viz.css" />
+    <link rel="stylesheet" href="/tornadoes/tornadoes.css" />
+    <script type="module" src="/js/pages/tornadoes.js" blocking="render"></script>
+  </head>
+  <body>
+    <header id="viz-header"></header>
+    <main>
+      <div class="stage">
+        <output id="year-label" aria-live="off"></output>
+        <canvas id="map" role="img" aria-label="Map of US counties shaded by tornado count, with tornado tracks"></canvas>
+        <figure id="legend" class="legend" aria-label="Colour key">
+          <figcaption class="legend-title"></figcaption>
+          <div class="legend-row">
+            <span class="legend-none"><i class="legend-swatch"></i><span class="legend-none-label">0</span></span>
+            <div class="legend-bar">
+              <div class="legend-ramp"></div>
+              <div class="legend-ticks"></div>
+            </div>
+          </div>
+        </figure>
+        <p id="county-info" role="status" aria-live="polite"></p>
+      </div>
+      <div class="controls">
+        <button id="play" type="button" disabled>Pause</button>
+        <input id="year" type="range" min="0" step="1" aria-label="Year" disabled />
+        <label><input id="strong" type="checkbox" disabled /> EF3+ only</label>
+      </div>
+      <p class="load-error" role="alert" hidden></p>
+    </main>
+    <footer id="footer"></footer>
+  </body>
+</html>

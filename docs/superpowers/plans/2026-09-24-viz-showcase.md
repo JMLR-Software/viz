@@ -1004,7 +1004,7 @@ Branch `feat/viz-phase-2` off `main` after phase 1 has merged.
 
 - The file is `https://www.spc.noaa.gov/wcm/data/1950-2025_all_tornadoes.csv` (74,956 rows, 1950–2025). The spec says 1950–2024, and SPC has since published 2025, so this plan uses the newest complete year and puts the end year in the hook. Flag this to Josh in the PR.
 - `sg == "1"` is one row per tornado with its whole track (73,455). This is what the tracks use.
-- `sn == "1"` is a row per state with that state's counties in `f1`–`f4` (the county FIPS within `stf`, with 0 meaning none). This is what the county counts use. A multi-state tornado has an `sn=0, sg=1` whole-track row plus `sn=1, sg=2` state rows. `sg == "-9"` rows are continuation rows and are ignored.
+- `sn == "1"` is a row per state with that state's counties in `f1`–`f4` (the county FIPS within `stf`, with 0 meaning none). This is what the county counts use. A multi-state tornado has an `sn=0, sg=1` whole-track row plus `sn=1, sg=2` state rows. `sg == "-9"` rows (all `sn=0`) carry counties 5 and up for a tornado that crossed more than four counties in a state, so the counts use them too (250 refs, mostly 1974). A row can list one county twice, so each (tornado, county) pair counts once, keyed on `(yr, om, date, fips)` because `(yr, om)` alone repeats.
 - `elat == 0` means no end point was recorded (26,083 tracks, almost all before 2000).
 - `mag == -9` means the rating is unknown (1,546 rows).
 - There are PR, VI, AK, HI and DC rows. `geoAlbersUsa` has no place for PR or VI.

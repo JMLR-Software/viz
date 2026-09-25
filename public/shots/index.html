@@ -53,7 +53,14 @@
           <svg id="court" role="img" aria-label="Shot chart"></svg>
           <div id="tooltip" hidden></div>
         </div>
-        <p id="legend"></p>
+        <figure id="legend" class="legend" aria-label="Colour key">
+          <figcaption class="legend-title"></figcaption>
+          <div class="legend-bar">
+            <div class="legend-ramp"></div>
+            <div class="legend-ticks"></div>
+          </div>
+          <p class="legend-note"></p>
+        </figure>
         <p id="empty" role="status" aria-live="polite" hidden></p>
         <p id="error" role="status" aria-live="polite" hidden></p>
         <table id="zones"></table>

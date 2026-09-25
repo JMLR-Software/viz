@@ -15,6 +15,12 @@ export const SHOWCASES: readonly Showcase[] = [
     hook: "Where the 2026 NBA All-Stars shot from, 2025-26",
     credit: "Data: NBA.com/stats via nba_api. Not affiliated with the NBA.",
   },
+  {
+    slug: "tornadoes",
+    title: "US Tornadoes",
+    hook: "Every US tornado since 1950",
+    credit: "Data: NOAA Storm Prediction Center severe weather database. Not affiliated with NOAA.",
+  },
 ];
 
 export function showcaseFor(slug: string): Showcase {

@@ -26,6 +26,10 @@ export const RADIUS_FLOOR = 0.35;
  */
 export const EFFICIENCY_CONFIDENT_SHOTS = 5;
 
+/** Colour key: at most this many ticks on the frequency bar, and this many gradient stops on either bar. */
+export const LEGEND_TICKS = 4;
+export const LEGEND_STOPS = 16;
+
 /** SVG width the court is drawn at; height follows from the court aspect ratio. */
 export const COURT_SVG_WIDTH = 560;
 
