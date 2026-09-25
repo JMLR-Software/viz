@@ -29,9 +29,10 @@ export function measure(points: readonly Point[]): Measured {
   return { points: [...points], cum, total: cum[cum.length - 1] };
 }
 
-/** The point a fraction t (0..1) of the way along by length. */
+/** The point a fraction t (0..1) of the way along by length. An empty arc has no point to give. */
 export function pointAt(m: Measured, t: number): Point {
-  if (m.points.length < 2) return m.points[0] ?? [0, 0];
+  if (m.points.length === 0) throw new Error("pointAt: empty arc");
+  if (m.points.length < 2) return m.points[0];
   const d = Math.min(Math.max(t, 0), 1) * m.total;
   let i = 1;
   while (i < m.cum.length - 1 && m.cum[i] < d) i += 1;

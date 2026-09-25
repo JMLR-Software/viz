@@ -45,6 +45,9 @@ describe("measure and pointAt", () => {
     expect(pointAt(m, 2)).toEqual([3, 10]);
     expect(pointAt(measure([[4, 4]]), 0.5)).toEqual([4, 4]);
   });
+  it("has no point to give for an empty arc", () => {
+    expect(() => pointAt(measure([]), 0.5)).toThrow();
+  });
 });
 
 describe("dotTs", () => {
