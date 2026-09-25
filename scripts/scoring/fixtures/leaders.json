@@ -1,0 +1,4 @@
+{
+  "headers": ["PLAYER_ID", "PLAYER_NAME", "PTS", "PTS_RANK", "IS_ACTIVE_FLAG"],
+  "data": [[1, "Ann", 300, 1, "N"], [2, "Bo", 250, 2, "N"], [3, "Cy", 120, 3, "Y"]]
+}

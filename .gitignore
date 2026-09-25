@@ -9,5 +9,6 @@ playwright-report/
 .worktrees/
 .superpowers/
 scripts/.venv/
+scripts/scoring/.cache/
 __pycache__/
 .pytest_cache/
