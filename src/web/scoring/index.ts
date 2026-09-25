@@ -3,9 +3,13 @@ import { el, getJson, showLoadError, sourceLink } from "../shell/load.js";
 import { shouldAutoplay } from "../shell/lib/rec.js";
 import { mountShell } from "../shell/mount.js";
 import { createPlayer } from "../shell/player.js";
-import { DATA_BASE, HOLD_MS, RACE_HEIGHT, RACE_WIDTH, SEASON_MS } from "./config.js";
+import {
+  BAR_COLORS, DATA_BASE, HOLD_MS, NAME_FONT, RACE_HEIGHT, RACE_WIDTH, REC_NAME_FONT, REC_RACE_HEIGHT, REC_ROW_HEIGHT,
+  REC_VALUE_FONT, ROW_HEIGHT, SEASON_MS, VALUE_FONT,
+} from "./config.js";
 import { drawRace } from "./draw.js";
-import { barsAt, buildRace, seasonIndexAt, startNote } from "./lib/race.js";
+import type { RaceFrame } from "./draw.js";
+import { barColors, barsAt, buildRace, seasonIndexAt, startNote } from "./lib/race.js";
 import type { ScoringFile } from "./lib/race.js";
 
 const { rec, footerDetail } = mountShell("scoring");
@@ -20,11 +24,16 @@ const ctxOrNull = canvas.getContext("2d");
 if (!ctxOrNull) throw new Error("canvas 2d unavailable");
 const ctx: CanvasRenderingContext2D = ctxOrNull;
 
+// Record mode uses a taller logical frame (larger rows, bigger type) so the chart fills the 9:16 frame's height.
+const frame: RaceFrame = rec
+  ? { height: REC_RACE_HEIGHT, rowHeight: REC_ROW_HEIGHT, nameFont: REC_NAME_FONT, valueFont: REC_VALUE_FONT }
+  : { height: RACE_HEIGHT, rowHeight: ROW_HEIGHT, nameFont: NAME_FONT, valueFont: VALUE_FONT };
+
 function sizeCanvas(): void {
   const ratio = window.devicePixelRatio || 1;
   const scale = (canvas.clientWidth * ratio) / RACE_WIDTH;
   canvas.width = Math.round(RACE_WIDTH * scale);
-  canvas.height = Math.round(RACE_HEIGHT * scale);
+  canvas.height = Math.round(frame.height * scale);
   ctx.setTransform(scale, 0, 0, scale, 0, 0);
 }
 
@@ -32,6 +41,7 @@ function run(file: ScoringFile): void {
   const race = buildRace(file.players, file.seasons.length, file.topN);
   const names = file.players.map((p) => p.name);
   const start = file.startSeason;
+  const colors = barColors(race, start, BAR_COLORS.length);
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let lastSeason = -1;
   seasonInput.min = String(start);
@@ -42,7 +52,7 @@ function run(file: ScoringFile): void {
   // The player counts seasons from the start season; the race and the labels count from 1946-47.
   const render = (offset: number): void => {
     const position = start + offset;
-    drawRace(ctx, race, barsAt(race, position), names);
+    drawRace(ctx, race, barsAt(race, position), names, colors, frame);
     const season = seasonIndexAt(position, race.last);
     if (season !== lastSeason) {
       seasonLabel.textContent = file.seasons[season];

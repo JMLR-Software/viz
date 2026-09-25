@@ -6,5 +6,7 @@ main { padding: 16px 24px; }
 #season { flex: 1; min-width: 160px; accent-color: var(--accent); }
 #start-note { max-width: 960px; margin: 8px auto 0; color: var(--muted); font-size: 13px; }
 html.rec main { padding: 8px 12px; display: flex; flex-direction: column; justify-content: center; }
+/* Taller aspect ratio than #race's default, to match config.ts's REC_RACE_HEIGHT (RACE_WIDTH / REC_RACE_HEIGHT = 900 / 1016). */
+html.rec #race { aspect-ratio: 900 / 1016; }
 html.rec #season-label { position: static; display: block; text-align: center; font-size: 64px; color: var(--ink); }
 html.rec #start-note { display: none; }

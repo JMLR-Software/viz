@@ -18,15 +18,23 @@ export const PAD_LEFT = 8;
 /** Room right of the longest bar for its points label. */
 export const PAD_RIGHT = 130;
 export const RACE_HEIGHT = PAD_TOP * 2 + ROW_HEIGHT * TOP_N;
-/** A bar at least this wide carries its name inside; a shorter one puts it after the bar. */
+/** Record mode: taller rows so the chart fills more of the 9:16 frame's height, with larger type to match
+ *  (`html.rec #race`'s `aspect-ratio` in scoring.css must be kept as `RACE_WIDTH / REC_RACE_HEIGHT`). */
+export const REC_ROW_HEIGHT = 100;
+export const REC_RACE_HEIGHT = PAD_TOP * 2 + REC_ROW_HEIGHT * TOP_N;
+/** A bar must be at least this wide to carry its name inside, as a floor; the real decision measures the name
+ *  in the draw font at draw time, so it works whatever the system's fonts resolve to. */
 export const MIN_INSIDE_NAME = 260;
 
 const FONT_STACK = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
 export const NAME_FONT = `700 24px ${FONT_STACK}`;
 export const VALUE_FONT = `600 22px ${FONT_STACK}`;
+export const REC_NAME_FONT = `700 40px ${FONT_STACK}`;
+export const REC_VALUE_FONT = `600 34px ${FONT_STACK}`;
 export const NAME_COLOR = "#0b0d11";
 export const VALUE_COLOR = "#eef0f4";
-/** A player's bar colour is fixed by their place in the file, so it follows them up and down the chart. */
+/** A player's bar colour is assigned by lib/race.ts's barColors, so it follows them up and down the chart and
+ *  never repeats within a season's top N. */
 export const BAR_COLORS: readonly string[] = schemeTableau10;
 
 /** Spec §6: about 2 MB per showcase. */
