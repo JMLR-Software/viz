@@ -96,7 +96,7 @@ Moved from the root to `/shots` with its code under `src/web/shots/`. The 2026-0
 
 **Amendment (2026-09-25):** the fetch is two downloads, not one — the T-100 segment file and the Master Coordinate
 file (§6.4 above undersold this as "one CSV"). The registry hook is "The 1,000 busiest US air routes of 2025" (Josh
-confirmed). Each arc's dot count is tied to the route's departures, not its passengers.
+confirmed). Departures set how many dots each arc carries; every dot takes the same time to cross.
 
 ### 6.5 Scoring (`/scoring`) — "The NBA's all-time scoring list, season by season"
 
