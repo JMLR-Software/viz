@@ -129,7 +129,7 @@ def build_airports(rows, ids):
         }
     missing = [i for i in ids if i not in airports]
     if missing:
-        raise ValueError(f"no coordinates for airport ids: {', '.join(map(str, missing))}")
+        raise ValueError(f"no usable coordinates for airport ids: {', '.join(map(str, missing))}")
     return {i: airports[i] for i in ids}
 
 

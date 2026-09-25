@@ -99,7 +99,7 @@ def test_airports_use_the_latest_coordinates():
 
 def test_an_airport_with_no_coordinates_is_named():
     rows = [r for r in coords() if r["AIRPORT"] != "JFK"]
-    with pytest.raises(ValueError, match="no coordinates for airport ids: 12478"):
+    with pytest.raises(ValueError, match="no usable coordinates for airport ids: 12478"):
         ff.build_airports(rows, [10397, 12478])
 
 
@@ -111,7 +111,7 @@ def test_a_blank_coordinate_row_for_an_unneeded_airport_does_not_break_the_run()
 
 
 def test_a_needed_airport_with_blank_coordinates_is_named():
-    with pytest.raises(ValueError, match="no coordinates for airport ids: 10299"):
+    with pytest.raises(ValueError, match="no usable coordinates for airport ids: 10299"):
         ff.build_airports(coords(), [10397, 10299])
 
 

@@ -41,8 +41,8 @@ TranStats has no scriptable download. Once per data year:
 1. **T-100 Domestic Segment (All Carriers):** open
    https://www.transtats.bts.gov/DL_SelectFields.aspx?gnoyr_VQ=FMG&QO_fu146_anzr=Nv4%20Pn44vr45 .
    Set the year filter to **2025** and the period to **All Months**, then tick only these fields: `YEAR`, `MONTH`,
-   `PASSENGERS`, `DEPARTURES_PERFORMED`, `ORIGIN_AIRPORT_ID`, `ORIGIN`, `ORIGIN_STATE_ABR`, `DEST_AIRPORT_ID`,
-   `DEST`, `DEST_STATE_ABR`. Download it and keep the .zip.
+   `PASSENGERS`, `DEPARTURES_PERFORMED`, `ORIGIN_AIRPORT_ID`, `ORIGIN_STATE_ABR`, `DEST_AIRPORT_ID`,
+   `DEST_STATE_ABR`. Download it and keep the .zip.
 2. **Master Coordinate:** open
    https://www.transtats.bts.gov/DL_SelectFields.aspx?gnoyr_VQ=FLL&QO_fu146_anzr=N8vn6v10%20f722146%20gnoyr5 .
    Use no filter, and tick `AIRPORT_ID`, `AIRPORT`, `DISPLAY_AIRPORT_NAME`, `DISPLAY_AIRPORT_CITY_NAME_FULL`,
