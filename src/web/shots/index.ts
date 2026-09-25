@@ -10,6 +10,10 @@ import { zoneStats } from "./lib/zones.js";
 import { renderPlayers } from "./players.js";
 import type { Selection, SortKey } from "./players.js";
 import { renderZones } from "./zone-table.js";
+import { mountShell } from "../shell/mount.js";
+import { REPO_URL } from "../shell/config.js";
+
+const { footerDetail } = mountShell("shots");
 
 const el = <T extends HTMLElement>(id: string): T => {
   const node = document.getElementById(id);
@@ -25,7 +29,6 @@ const legend = el("legend");
 const errorBox = el("error");
 const emptyBox = el("empty");
 const zonesTable = el<HTMLTableElement>("zones");
-const footer = el("footer");
 const seasonSelect = el<HTMLSelectElement>("season");
 const modeSelect = el<HTMLSelectElement>("mode");
 const resultSelect = el<HTMLSelectElement>("result");
@@ -249,16 +252,15 @@ async function start(): Promise<void> {
     state.index = (await response.json()) as IndexFile;
   } catch (error) {
     console.error(error);
-    showError("Couldn't load the shot data. Reload to try again.");
+    showError("Couldn't load the shots data. Reload to try again.");
     return;
   }
 
   const date = state.index.generatedAt.slice(0, 10);
-  footer.replaceChildren(`Data: NBA.com/stats via nba_api, pulled ${date}. Not affiliated with the NBA. `);
   const repoLink = document.createElement("a");
-  repoLink.href = "https://github.com/JMLR-Software/allstar-shots";
+  repoLink.href = REPO_URL;
   repoLink.textContent = "Source";
-  footer.appendChild(repoLink);
+  footerDetail.replaceChildren(`Pulled ${date}. `, repoLink);
 
   syncModeControl();
   syncResultControl();

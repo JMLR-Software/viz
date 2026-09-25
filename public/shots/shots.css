@@ -1,42 +1,4 @@
-:root {
-  color-scheme: light dark;
-  --bg: #f7f7f8;
-  --panel: #ffffff;
-  --ink: #16181d;
-  --muted: #5f6672;
-  --line: #d9dce2;
-  --court: #b98a5a;
-  --court-line: #ffffff;
-  --accent: #c8102e;
-  --up: #b3261e;
-  --down: #1a56a8;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #101216;
-    --panel: #181b21;
-    --ink: #eef0f4;
-    --muted: #99a1ae;
-    --line: #2b303a;
-    --court: #3b3128;
-    /* Lighter than the light-mode values; each reaches at least 4.5:1 against the #181b21 panel. */
-    --accent: #ff6b7a; /* 6.27:1 */
-    --up: #ff8f66; /* 7.70:1 */
-    --down: #7fb2ff; /* 7.98:1 */
-  }
-}
-
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-
-header {
+.bar {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
@@ -47,17 +9,6 @@ header {
 
 h1 { margin: 0; font-size: 20px; letter-spacing: -0.01em; }
 h1 .season { color: var(--muted); font-weight: 400; }
-
-select {
-  font: inherit;
-  padding: 4px 8px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: var(--panel);
-  color: inherit;
-}
-
-select:disabled { opacity: 0.5; }
 
 main {
   display: grid;
@@ -136,10 +87,7 @@ aside .sort { display: block; margin-bottom: 12px; color: var(--muted); font-siz
 #zones .delta.up { color: var(--up); }
 #zones .delta.down { color: var(--down); }
 
-footer { padding: 24px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--line); }
-footer a { color: inherit; }
-
-@media (max-width: 800px) {
+@container (max-width: 800px) {
   main { grid-template-columns: minmax(0, 1fr); }
   aside { position: static; }
   #players { display: flex; gap: 8px; max-height: none; overflow-x: auto; padding-bottom: 8px; }

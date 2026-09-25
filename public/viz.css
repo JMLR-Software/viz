@@ -1,0 +1,68 @@
+:root {
+  color-scheme: dark;
+  --bg: #0b0d11;
+  --panel: #14171d;
+  --ink: #eef0f4;
+  --muted: #99a1ae;
+  --line: #262b34;
+  --accent: #ff6b7a; /* 6.27:1 on --panel */
+  --up: #ff8f66;
+  --down: #7fb2ff;
+  --court: #3b3128;
+  --court-line: #ffffff;
+}
+
+@view-transition { navigation: auto; }
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  container-type: inline-size;
+}
+
+#viz-header {
+  view-transition-name: viz-header;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--line);
+}
+#viz-header .wordmark { color: var(--ink); font-weight: 800; font-size: 22px; letter-spacing: -0.03em; text-decoration: none; }
+#showcase { font: inherit; font-size: 18px; font-weight: 600; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: inherit; }
+#viz-header .hook { flex-basis: 100%; margin: 0; color: var(--muted); font-size: 16px; }
+
+select { font: inherit; padding: 4px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); color: inherit; }
+select:disabled { opacity: 0.5; }
+button { font: inherit; color: inherit; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+
+footer { padding: 16px 24px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--line); }
+footer a { color: inherit; }
+
+.load-error { margin: 24px; color: var(--accent); }
+.load-error button { margin-left: 8px; }
+
+/* Record mode: a centred 9:16 phone frame, larger type, one-line footer. */
+html.rec { background: #000; height: 100%; }
+html.rec body {
+  width: min(100vw, calc(100vh * 9 / 16));
+  height: min(100vh, calc(100vw * 16 / 9));
+  margin: 0 auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+}
+html.rec main { flex: 1; min-height: 0; overflow: auto; }
+html.rec #viz-header .hook { font-size: 20px; color: var(--ink); }
+html.rec footer { padding: 8px 16px; }
+html.rec footer .detail { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}
