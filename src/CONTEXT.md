@@ -28,9 +28,18 @@ src/
 │           ├── hexes.ts     binShots, deltaFor
 │           ├── zones.ts     zoneStats
 │           └── scales.ts    colour and radius scale helpers
+│   └── tornadoes/           canvas, not SVG: ~73k tracks and ~3k counties redraw every frame
+│       ├── config.ts        every constant: field order, map frame, timing, colours, track widths, data budget
+│       ├── index.ts         DOM wiring: load, controls (disabled until the data is in), animation loop
+│       ├── draw.ts          drawFrame (county heat, state lines, track flashes), countyAt (tap hit-test)
+│       └── lib/             pure functions, unit-tested
+│           ├── data.ts      TornadoFile type, decodeTracks (points, off-map drops)
+│           ├── totals.ts    buildCumulative, countAt, maxFinal
+│           ├── timeline.ts  positionAt, yearIndexAt, positionForYearIndex, trackAlpha
+│           └── scale.ts     heatScale, trackWidth
 └── test/
     ├── unit/<area>/         Vitest, one file per lib module (shell, shots, worker, …)
-    └── e2e/                 Playwright flows (shell.spec.ts, shots.spec.ts)
+    └── e2e/                 Playwright flows (shell.spec.ts, shots.spec.ts, tornadoes.spec.ts)
 ```
 
 ## Key workflows

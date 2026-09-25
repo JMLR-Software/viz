@@ -28,7 +28,8 @@ viz/
 | Why does it work this way? | `docs/` | `superpowers/specs/2026-09-24-viz-showcase-design.md` (the gallery), `2026-09-13-allstar-shots-design.md` (shots) | `src/`, the specs explain the code |
 | Change what the court or table shows | `src/` | `CONTEXT.md`, then `src/web/shots/lib/` for math, `src/web/shots/` for DOM | `scripts/` |
 | Colours, hex size, thresholds | `src/` | `src/web/shots/config.ts` | everything else |
-| Add a player or refresh the data | `scripts/` | `CONTEXT.md`, then `scripts/shots/roster.json` | `src/`, nothing there knows player names |
+| Change the tornado map | `src/` | `src/web/tornadoes/config.ts`, then `src/web/tornadoes/lib/` | `scripts/` |
+| Add a player or refresh the data | `scripts/` | `CONTEXT.md`, then `scripts/shots/roster.json` (tornadoes: `pnpm data:fetch:tornadoes`) | `src/`, nothing there knows player names |
 | Data file shape | `docs/` | spec §5 | guessing from `public/data/shots/` |
 | Deploy | `src/` | `CONTEXT.md` deploy section | — |
 | Add a showcase | `src/` | `src/web/shell/registry.ts`, then `src/CONTEXT.md` | the other showcases' folders |
