@@ -15,6 +15,7 @@
     "data:fetch:tornadoes": "scripts/.venv/bin/python scripts/tornadoes/fetch_tornadoes.py",
     "data:fetch:quakes": "scripts/.venv/bin/python scripts/quakes/fetch_quakes.py",
     "data:fetch:scoring": "scripts/.venv/bin/python scripts/scoring/fetch_scoring.py",
+    "data:fetch:flights": "scripts/.venv/bin/python scripts/flights/fetch_flights.py",
     "data:test": "scripts/.venv/bin/python -m pytest scripts -q",
     "deploy": "pnpm test && NODE_ENV=production pnpm build:web && wrangler deploy"
   },

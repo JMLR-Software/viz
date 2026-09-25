@@ -31,7 +31,7 @@ viz/
 | Change the tornado map | `src/` | `src/web/tornadoes/config.ts`, then `src/web/tornadoes/lib/` | `scripts/` |
 | Change the quake globe | `src/` | `src/web/quakes/config.ts`, then `src/web/quakes/lib/` | `scripts/` |
 | Change the scoring race | `src/` | `src/web/scoring/config.ts`, then `src/web/scoring/lib/race.ts` | `scripts/` |
-| Add a player or refresh the data | `scripts/` | `CONTEXT.md`, then `scripts/shots/roster.json` (tornadoes: `pnpm data:fetch:tornadoes`; quakes: `pnpm data:fetch:quakes`; scoring: `pnpm data:fetch:scoring`) | `src/`, nothing there knows player names |
+| Add a player or refresh the data | `scripts/` | `CONTEXT.md`, then `scripts/shots/roster.json` (tornadoes: `pnpm data:fetch:tornadoes`; quakes: `pnpm data:fetch:quakes`; scoring: `pnpm data:fetch:scoring`; flights: README "Flights", then `pnpm data:fetch:flights <segments> <coords>`) | `src/`, nothing there knows player names |
 | Data file shape | `docs/` | spec §5 | guessing from `public/data/shots/` |
 | Deploy | `src/` | `CONTEXT.md` deploy section | — |
 | Add a showcase | `src/` | `src/web/shell/registry.ts`, then `src/CONTEXT.md` | the other showcases' folders |
