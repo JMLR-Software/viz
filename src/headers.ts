@@ -12,7 +12,7 @@ const SECURITY: Readonly<Record<string, string>> = {
  * Only a found file is cached forever; a 404 must not stick once a later deploy adds the file.
  */
 export function headersFor(pathname: string, status = 200): Record<string, string> {
-  const found = status >= 200 && status < 300;
+  const found = (status >= 200 && status < 300) || status === 304;
   if (found && (pathname.startsWith("/js/chunks/") || pathname.startsWith("/data/"))) {
     return { ...SECURITY, "Cache-Control": IMMUTABLE };
   }

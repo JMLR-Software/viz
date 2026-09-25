@@ -19,6 +19,9 @@ describe("headersFor", () => {
       expect(headersFor(path, 404)["Content-Security-Policy"], path).toContain("default-src 'self'");
     }
   });
+  it("keeps the forever rule on a 304, which is a found file", () => {
+    expect(headersFor("/data/shots/index.json", 304)["Cache-Control"]).toBe("public, max-age=31536000, immutable");
+  });
   it("revalidates page scripts so a deploy is seen at once", () => {
     expect(headersFor("/js/pages/shots.js")["Cache-Control"]).toBe("no-cache");
   });
