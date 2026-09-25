@@ -57,3 +57,23 @@ test("a tile carries ?rec, and the wordmark goes home with it", async ({ page })
   await page.locator("#viz-header .wordmark").click();
   await expect(page).toHaveURL(/\/\?rec$/);
 });
+
+test("the Worker sends the CSP and cache headers on real responses", async ({ request }) => {
+  const html = await request.get("/shots/");
+  expect(html.headers()["content-security-policy"]).toContain("default-src 'self'");
+  const page = await request.get("/js/pages/shots.js");
+  expect(page.headers()["cache-control"]).toBe("no-cache");
+  const chunk = (await page.text()).match(/chunks\/[\w-]+\.js/)?.[0];
+  expect(chunk).toBeDefined();
+  expect((await request.get(`/js/${chunk}`)).headers()["cache-control"]).toContain("immutable");
+  const missing = await request.get("/nope/");
+  expect(missing.headers()["content-security-policy"]).toContain("default-src 'self'");
+});
+
+test("after Back, the dropdown names the page again and still navigates", async ({ page }) => {
+  await page.goto("/");
+  await page.locator("#showcase").selectOption("shots");
+  await expect(page).toHaveURL(/\/shots\/$/);
+  await page.goBack();
+  await expect(page.locator("#showcase")).toHaveValue("");
+});

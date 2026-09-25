@@ -21,6 +21,10 @@ function buildDropdown(current: string | null, rec: boolean): HTMLSelectElement 
   select.addEventListener("change", () => {
     window.location.assign(withRec(`/${select.value}/`, rec));
   });
+  // Back/forward cache restores the select as the viewer left it; name this page again.
+  window.addEventListener("pageshow", () => {
+    select.value = current ?? "";
+  });
   return select;
 }
 
