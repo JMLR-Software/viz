@@ -12,13 +12,13 @@ The Worker (`src/worker.ts`, configured in `wrangler.jsonc` with `run_worker_fir
 src/
 ├── worker.ts, redirect.ts, headers.ts   the Worker main and its two pure helpers
 ├── web/
-│   ├── shell/               registry.ts (the showcase list), mount.ts (header, dropdown, footer), config.ts, lib/rec.ts
+│   ├── shell/               registry.ts (the showcase list), mount.ts (header, dropdown, footer), legend.ts (fills a .legend colour key), config.ts, lib/rec.ts, lib/legend.ts (legendTicks, legendStops on a square-root scale)
 │   ├── home/                the / tile grid
 │   └── shots/               one folder per page; esbuild builds each index.ts to public/js/pages/<folder>.js
 │       ├── config.ts        every constant: ZONES, hex radius, colour domains, URL templates
 │       ├── index.ts         DOM wiring: state, controls, fetch, render calls (no math here)
 │       ├── court.ts         draws the half-court lines into an SVG group
-│       ├── heatmap.ts       draws hex bins and the tooltip
+│       ├── heatmap.ts       draws hex bins and the tooltip; returns the frequency cap the colour key uses
 │       ├── zone-table.ts    renders the zone table
 │       ├── players.ts       renders the player rail
 │       └── lib/             pure functions, unit-tested
@@ -27,18 +27,18 @@ src/
 │           ├── filter.ts    filterShots
 │           ├── hexes.ts     binShots, deltaFor
 │           ├── zones.ts     zoneStats
+│           ├── legend.ts    frequencyLegend, efficiencyLegend, legendNote (the colour key's content)
 │           └── scales.ts    colour and radius scale helpers
 │   └── tornadoes/           canvas, not SVG: ~73k tracks and ~3k counties redraw every frame
 │       ├── config.ts        every constant: field order, map frame, timing, colours, track widths, data budget
 │       ├── index.ts         DOM wiring: load, controls (disabled until the data is in), animation loop
 │       ├── draw.ts          drawFrame (county heat, state lines, track flashes), countyAt (tap hit-test)
-│       ├── legend.ts        renderLegend: the colour key under the map (follows the EF3+ toggle)
+│       ├── legend.ts        renderLegend: the colour key under the map (follows the EF3+ toggle), via shell/legend.ts
 │       └── lib/             pure functions, unit-tested
 │           ├── data.ts      TornadoFile type, decodeTracks (points, off-map drops)
 │           ├── totals.ts    buildCumulative, countAt, maxFinal
 │           ├── timeline.ts  positionAt, yearIndexAt, positionForYearIndex, trackAlpha
-│           ├── scale.ts     heatScale, trackWidth
-│           └── legend.ts    legendTicks, legendStops (same square-root scale as the heat)
+│           └── scale.ts     heatScale, trackWidth
 └── test/
     ├── unit/<area>/         Vitest, one file per lib module (shell, shots, worker, …)
     └── e2e/                 Playwright flows (shell.spec.ts, shots.spec.ts, tornadoes.spec.ts)

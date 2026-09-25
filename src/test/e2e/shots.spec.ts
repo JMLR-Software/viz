@@ -64,3 +64,18 @@ test("the footer credits the source", async ({ page }) => {
   await page.goto("/shots/");
   await expect(page.locator("#footer")).toContainText("Not affiliated with the NBA");
 });
+
+test("the colour key shows a shot-count bar, and a diverging bar with a size note in efficiency", async ({ page }) => {
+  await page.goto("/shots/");
+  const legend = page.locator("#legend");
+  await expect(legend.locator(".legend-title")).toHaveText("Shots from each spot");
+  await expect(legend.locator(".legend-tick").first()).toHaveText("1");
+  await expect(legend.locator(".legend-tick").last()).toHaveText(/^\d+\+$/);
+  await expect(legend.locator(".legend-ramp")).toHaveCSS("background-image", /linear-gradient/);
+
+  await page.getByRole("button", { name: /Nikola Jokić/ }).click();
+  await expect(legend.locator(".legend-note")).toBeHidden();
+  await page.locator("#mode").selectOption("efficiency");
+  await expect(legend.locator(".legend-tick")).toHaveText(["−15 or worse", "average", "+15 or better"]);
+  await expect(legend.locator(".legend-note")).toContainText("Bigger hexes had more shots");
+});

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { legendStops, legendTicks } from "../../../web/tornadoes/lib/legend.js";
+import { legendStops, legendTicks } from "../../../web/shell/lib/legend.js";
 import { heatScale } from "../../../web/tornadoes/lib/scale.js";
 
 describe("legendTicks", () => {

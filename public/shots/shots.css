@@ -76,7 +76,7 @@ aside .sort { display: block; margin-bottom: 12px; color: var(--muted); font-siz
   transform: translate(-50%, -120%);
 }
 
-#legend { margin: 12px 0 0; color: var(--muted); font-size: 12px; }
+#legend { margin-top: 12px; }
 #empty { margin: 12px 0 0; color: var(--muted); }
 #error { margin: 12px 0 0; color: var(--accent); }
 

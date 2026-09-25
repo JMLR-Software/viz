@@ -67,3 +67,23 @@ html.rec footer .detail { display: none; }
 @media (prefers-reduced-motion: reduce) {
   @view-transition { navigation: none; }
 }
+
+/* Colour key under a chart: title, gradient bar with ticks, optional note. src/web/shell/legend.ts fills it. */
+.legend { margin: 8px 0 0; max-width: 360px; color: var(--muted); font-size: 12px; }
+.legend-title { margin-bottom: 4px; }
+.legend-row { display: flex; align-items: flex-start; gap: 3px; }
+.legend-none { display: flex; flex-direction: column; align-items: center; font-variant-numeric: tabular-nums; }
+.legend-none-label { margin-top: 3px; line-height: 16px; }
+/* The "no tornadoes" fill sits as the bar's first block; a hairline keeps it visible on the dark page. */
+.legend-swatch { display: block; width: 14px; height: 10px; border-radius: 2px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18); }
+.legend-bar { flex: 1; }
+.legend-ramp { height: 10px; border-radius: 2px; }
+.legend-ticks { position: relative; height: 16px; margin-top: 3px; font-variant-numeric: tabular-nums; }
+.legend-tick { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; }
+.legend-tick:first-child { transform: none; }
+.legend-tick:last-child { transform: translateX(-100%); }
+.legend-note { margin: 4px 0 0; }
+.legend-note:empty { display: none; }
+html.rec .legend { max-width: none; font-size: 16px; }
+html.rec .legend-ramp, html.rec .legend-swatch { height: 14px; }
+html.rec .legend-swatch { width: 20px; }

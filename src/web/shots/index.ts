@@ -1,15 +1,17 @@
-import { COURT_SVG_WIDTH, DATA_BASE, HEX_RADIUS, ZONES } from "./config.js";
+import { COURT_SVG_WIDTH, DATA_BASE, DELTA_CLAMP, EFFICIENCY_CONFIDENT_SHOTS, HEX_RADIUS, LEGEND_STOPS, LEGEND_TICKS, ZONES } from "./config.js";
 import { drawCourt } from "./court.js";
-import { drawHexes, legendText } from "./heatmap.js";
+import { drawHexes } from "./heatmap.js";
 import type { Mode } from "./heatmap.js";
 import { decodeShots, zonePercentages } from "./lib/data.js";
 import type { IndexFile, ResultFilter, SeasonType, Shot, ShotsFile, Totals } from "./lib/data.js";
 import { filterShots } from "./lib/filter.js";
+import { efficiencyLegend, frequencyLegend, legendNote } from "./lib/legend.js";
 import { binShots } from "./lib/hexes.js";
 import { zoneStats } from "./lib/zones.js";
 import { renderPlayers } from "./players.js";
 import type { Selection, SortKey } from "./players.js";
 import { renderZones } from "./zone-table.js";
+import { renderLegendBar } from "../shell/legend.js";
 import { mountShell } from "../shell/mount.js";
 import { REPO_URL } from "../shell/config.js";
 
@@ -26,6 +28,11 @@ const courtSvg = document.getElementById("court") as SVGSVGElement | null;
 const tooltip = el("tooltip");
 const summary = el("summary");
 const legend = el("legend");
+const legendPart = (selector: string): HTMLElement => {
+  const node = legend.querySelector<HTMLElement>(selector);
+  if (!node) throw new Error(`missing #legend ${selector}`);
+  return node;
+};
 const errorBox = el("error");
 const emptyBox = el("empty");
 const zonesTable = el<HTMLTableElement>("zones");
@@ -120,7 +127,7 @@ function render(shots: Shot[]): void {
   drawCourt(courtSvg, COURT_SVG_WIDTH);
 
   const visible = state.mode === "efficiency" ? shots : filterShots(shots, state.result);
-  drawHexes(courtSvg, tooltip, binShots(visible, HEX_RADIUS, poolPct), state.mode, COURT_SVG_WIDTH, HEX_RADIUS);
+  const cap = drawHexes(courtSvg, tooltip, binShots(visible, HEX_RADIUS, poolPct), state.mode, COURT_SVG_WIDTH, HEX_RADIUS);
 
   if (shots.length === 0) {
     emptyBox.textContent = `No ${seasonWord()} shots for ${nameFor(state.selected)}.`;
@@ -130,7 +137,11 @@ function render(shots: Shot[]): void {
   }
 
   const isPool = state.selected === "all";
-  legend.textContent = legendText(state.mode, isPool);
+  renderLegendBar(
+    legend,
+    state.mode === "efficiency" ? efficiencyLegend(DELTA_CLAMP, LEGEND_STOPS) : frequencyLegend(cap, LEGEND_TICKS, LEGEND_STOPS),
+  );
+  legendPart(".legend-note").textContent = legendNote(state.mode, isPool, EFFICIENCY_CONFIDENT_SHOTS);
   const { rows, total } = zoneStats(shots, pool.zones, ZONES);
   renderZones(zonesTable, rows, total, !isPool);
   renderSummary();
