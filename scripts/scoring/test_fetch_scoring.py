@@ -111,3 +111,30 @@ def test_write_json_atomic_leaves_no_temp_file(tmp_path):
     fs.write_json_atomic(target, {"a": 1})
     assert json.loads(target.read_text()) == {"a": 1}
     assert [p.name for p in tmp_path.iterdir()] == ["out.json"]
+
+
+def test_a_corrupt_cache_file_names_itself_in_the_error(tmp_path, monkeypatch):
+    monkeypatch.setattr(fs, "CACHE_DIR", tmp_path)
+    path = tmp_path / "42.json"
+    path.write_text("not json", encoding="utf-8")
+    with pytest.raises(ValueError, match=rf"cache file {path} is corrupt"):
+        fs.fetch_career(42)
+
+
+def test_a_good_cache_file_is_read_without_a_network_call(tmp_path, monkeypatch):
+    monkeypatch.setattr(fs, "CACHE_DIR", tmp_path)
+    (tmp_path / "42.json").write_text(json.dumps(CAREERS["1"]), encoding="utf-8")
+    result, fetched = fs.fetch_career(42)
+    assert fetched is False
+    assert result == CAREERS["1"]
+
+
+def test_add_cache_hint_leaves_other_errors_alone():
+    assert fs.add_cache_hint("expected 500 all-time leaders, got 3") == "expected 500 all-time leaders, got 3"
+
+
+def test_add_cache_hint_points_at_the_stale_cache_on_a_career_mismatch():
+    hint = fs.add_cache_hint("career totals disagree: Ann (100 by season vs 130 career)")
+    assert hint.startswith("career totals disagree: Ann (100 by season vs 130 career)")
+    assert str(fs.CACHE_DIR) in hint
+    assert "delete it and rerun" in hint

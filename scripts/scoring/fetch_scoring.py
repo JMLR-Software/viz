@@ -173,7 +173,10 @@ def fetch_career(player_id):
     """One player's season totals, from the cache when present. Returns (result set, fetched)."""
     path = CACHE_DIR / f"{player_id}.json"
     if path.exists():
-        return json.loads(path.read_text(encoding="utf-8")), False
+        try:
+            return json.loads(path.read_text(encoding="utf-8")), False
+        except json.JSONDecodeError as error:
+            raise ValueError(f"cache file {path} is corrupt ({error}); delete it and rerun") from error
     from nba_api.stats.endpoints import playercareerstats
 
     result = call_with_retries(f"player {player_id}", lambda: playercareerstats.PlayerCareerStats(
@@ -181,6 +184,17 @@ def fetch_career(player_id):
     ).season_totals_regular_season.get_dict())
     write_json_atomic(path, result)
     return result, True
+
+
+def add_cache_hint(message):
+    """The per-player cache never expires (see scripts/CONTEXT.md), so a rerun next season compares new leader
+    totals against last season's cached rows and every active player fails here — a data-looking error that is
+    really a stale cache. Point at the fix instead of leaving the wrong impression (Task 9 escalated this as a
+    TOT-rule bug before the cause was found).
+    """
+    if not message.startswith("career totals disagree"):
+        return message
+    return f"{message} (if {CACHE_DIR} is from an earlier run, delete it and rerun: the per-player cache has no expiry)"
 
 
 def main():
@@ -200,7 +214,7 @@ def main():
         generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         output = build_output(leaders, points_by_id, generated_at)
     except (OSError, ValueError, KeyError) as error:
-        print(f"fetch_scoring: {error}", file=sys.stderr)
+        print(f"fetch_scoring: {add_cache_hint(str(error))}", file=sys.stderr)
         sys.exit(1)
     write_json_atomic(OUT_PATH, output)
     start = output["seasons"][output["startSeason"]]
