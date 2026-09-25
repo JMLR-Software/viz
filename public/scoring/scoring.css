@@ -11,6 +11,10 @@ main { padding: 16px 24px; }
 }
 html.rec main { padding: 8px 12px; display: flex; flex-direction: column; justify-content: center; }
 /* Taller aspect ratio than #race's default, to match config.ts's REC_RACE_HEIGHT (RACE_WIDTH / REC_RACE_HEIGHT = 900 / 1016). */
-html.rec #race { aspect-ratio: 900 / 1016; }
+html.rec #race { aspect-ratio: 900 / 1016; width: min(100cqw, 100cqh * 900 / 1016); }
+/* The chart takes the height left under the season label, as quakes' globe does, so the frame never overflows.
+   The stage stretches to full width: otherwise it shrinks to the canvas's backing store and the layout depends on devicePixelRatio. */
+html.rec .stage { flex: 1; min-height: 0; width: 100%; display: flex; flex-direction: column; }
+html.rec .race-box { flex: 1; min-height: 0; container-type: size; display: flex; justify-content: center; align-items: center; }
 html.rec #season-label { position: static; display: block; text-align: center; font-size: 64px; color: var(--ink); }
 html.rec #start-note { display: none; }

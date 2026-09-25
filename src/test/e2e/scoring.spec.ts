@@ -71,20 +71,26 @@ test("a failed data load shows the error and retries", async ({ page }) => {
   await expect(page.locator(".load-error")).toBeHidden();
 });
 
+// Real phones are 2x or 3x: the canvas backing store must not change the layout, so check every density.
+for (const deviceScaleFactor of [1, 2, 3]) test.describe(`at ${deviceScaleFactor}x`, () => {
+  test.use({ viewport: { width: 390, height: 844 }, deviceScaleFactor });
+
 test("record mode fits the phone frame: nothing under the header or the footer", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/scoring/?rec");
   await expect(page.locator("#race")).toHaveAttribute("data-drawn", "true");
   const box = async (sel: string) => (await page.locator(sel).boundingBox())!;
   const header = await box("#viz-header");
   const footer = await box("footer");
   expect((await box("#season-label")).y).toBeGreaterThanOrEqual(header.y + header.height);
-  for (const sel of ["#race", "#season-label", "#season"]) {
+  for (const sel of ["#race", "#season-label", "#play", "#season"]) {
     const b = await box(sel);
     expect(b.y + b.height).toBeLessThanOrEqual(footer.y);
   }
   // The backing store follows the box after layout settles, so the chart is neither blurry nor oversized.
-  await expect.poll(() => page.locator("#race").evaluate((c: HTMLCanvasElement) => c.width - c.clientWidth)).toBe(0);
+  await expect
+    .poll(() => page.locator("#race").evaluate((c: HTMLCanvasElement) => c.width - Math.round(c.clientWidth * devicePixelRatio)))
+    .toBe(0);
+});
 });
 
 test("on a narrow phone (non-rec), the season label does not sit over the chart's bars", async ({ page }) => {
