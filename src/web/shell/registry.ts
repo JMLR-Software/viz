@@ -36,7 +36,7 @@ export const SHOWCASES: readonly Showcase[] = [
   {
     slug: "flights",
     title: "US Flights",
-    hook: "The 1,000 busiest US air routes of 2025",
+    hook: "The 1,000 busiest air routes in the lower 48, 2025",
     credit: "Data: US Bureau of Transportation Statistics (T-100). Not affiliated with the BTS or any airline.",
   },
 ];

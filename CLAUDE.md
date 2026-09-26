@@ -1,6 +1,6 @@
 # viz
 
-A small gallery of D3 data visualisations, made for reels: a dropdown in the header switches between showcases, each a page of its own with a one-line hook, and `?rec` locks any page into a 9:16 frame for recording. Every number comes from a named public source. The live showcases are All-Star Shots (`/shots`), every US tornado since 1950 (`/tornadoes`), a year of M4.5+ earthquakes (`/quakes`), the NBA's all-time scoring race (`/scoring`) and the 1,000 busiest US air routes of 2025 (`/flights`). Live at https://viz.jmlr.dev; https://shots.jmlr.dev redirects to `/shots`.
+A small gallery of D3 data visualisations, made for reels: a dropdown in the header switches between showcases, each a page of its own with a one-line hook, and `?rec` locks any page into a 9:16 frame for recording. Every number comes from a named public source. The live showcases are All-Star Shots (`/shots`), every US tornado since 1950 (`/tornadoes`), a year of M4.5+ earthquakes (`/quakes`), the NBA's all-time scoring race (`/scoring`) and the 1,000 busiest air routes in the lower 48, 2025 (`/flights`). Live at https://viz.jmlr.dev; https://shots.jmlr.dev redirects to `/shots`.
 
 **Stack.** A static multi-page site (TypeScript + D3, one esbuild entry per page, shared chunks), and a Worker that redirects, sets headers and serves assets. Data is pulled on a laptop by the Python scripts under `scripts/` and committed under `public/data/<slug>/`. pnpm, Wrangler, Vitest, Playwright, pytest.
 

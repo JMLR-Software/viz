@@ -98,6 +98,10 @@ Moved from the root to `/shots` with its code under `src/web/shots/`. The 2026-0
 file (§6.4 above undersold this as "one CSV"). The registry hook is "The 1,000 busiest US air routes of 2025" (Josh
 confirmed). Departures set how many dots each arc carries; every dot takes the same time to cross.
 
+**Amendment (2026-09-26):** the hook changed to "The 1,000 busiest air routes in the lower 48, 2025" because about
+65 AK/HI/PR routes would otherwise make the list (e.g. HNL–LAX at 2.31M passengers), and the page only draws the
+lower 48 + DC.
+
 ### 6.5 Scoring (`/scoring`) — "The NBA's all-time scoring list, season by season"
 
 - **Source:** `nba_api`, the same library as the shots data: the all-time top 500 career scorers, then each one's season-by-season regular-season points.
