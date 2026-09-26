@@ -26,6 +26,11 @@ scripts/
 │   ├── fixtures/leaders.json  sample all-time-leaders response
 │   ├── fixtures/careers.json  sample per-player career-stats response, a traded season included
 │   └── .cache/                every player's response, one file per id, git-ignored, so a rerun resumes
+├── flights/
+│   ├── fetch_flights.py       read Josh's two BTS TranStats downloads, write public/data/flights/{flights,states}.json
+│   ├── test_fetch_flights.py  pytest against the fixtures, never the network
+│   ├── fixtures/segments.csv  one row of each case: every month, both directions, freight-only, Hawaii, Alaska, a self-pair
+│   └── fixtures/coords.csv    coords with a superseded row and one blank-coordinate row for an airport the fixture never needs
 ├── requirements.txt     pinned: nba_api, pytest
 └── .venv/               git-ignored, python3.12
 ```
@@ -37,6 +42,7 @@ scripts/
 - **Fetch tornadoes:** `pnpm data:fetch:tornadoes` (two downloads, a few seconds). Exits non-zero and writes nothing on a missing column, an empty file or a failed download.
 - **Fetch quakes:** `pnpm data:fetch:quakes` (two downloads, seconds). The window is the 12 whole months before the current month; re-fetching moves it, and the registry hook must be updated to match (the contract test fails until it is).
 - **Fetch scoring:** `pnpm data:fetch:scoring` (501 calls, 1 s apart, about ten minutes; cached per player in `scripts/scoring/.cache/`, git-ignored, so a rerun resumes; delete the folder to refresh). Exits non-zero and writes nothing if a career does not add up or no season's top 10 is complete.
+- **Fetch flights:** Josh downloads two TranStats files by hand (README, "Flights"); `pnpm data:fetch:flights <segments> <coords>` reads them (.zip or .csv) and downloads the us-atlas states. Exits non-zero on any year but 2025, a missing month, or an airport with no coordinates.
 - **Test:** `pnpm data:test`.
 - After a fetch, commit `public/data/shots/` in the same commit as any roster change.
 
@@ -52,6 +58,8 @@ scripts/
 - Quakes: `EVENT_FIELDS` must match `src/web/quakes/config.ts`.
 - Scoring: a traded season's `TOT` row is the season; team rows are ignored.
 - Scoring: the start season is decided by the script and checked again by the TypeScript contract test; never set it by hand.
+- Flights: only routes with both ends in `LOWER_48` (the 48 states and DC) are kept; the page says so.
+- Flights: `ROUTE_FIELDS` must match `src/web/flights/config.ts`.
 
 ## What to avoid
 
