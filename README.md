@@ -32,7 +32,7 @@ pnpm data:fetch:shots  # ~2 minutes, 56 calls to stats.nba.com
 pnpm data:fetch:scoring  # ~10 minutes, 501 calls to stats.nba.com
 ```
 
-Only works from a normal machine; the NBA blocks curl and cloud egress. See `scripts/CONTEXT.md`.
+Only works from a normal machine; the NBA blocks curl and cloud egress. See `scripts/CLAUDE.md`.
 
 ### Flights: two files downloaded by hand
 
