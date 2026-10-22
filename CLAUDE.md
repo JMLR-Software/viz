@@ -13,12 +13,12 @@ viz/
 ├── CLAUDE.md          this file — read first, routes to workspaces
 ├── README.md          what this is, how to run it, status
 ├── src/               the Worker (worker.ts, headers.ts, redirect.ts), the frontend (src/web) and its tests (src/test)
-│   └── CONTEXT.md
+│   └── CLAUDE.md
 ├── scripts/           the data pipeline: roster, fetch script, pytest
-│   └── CONTEXT.md
+│   └── CLAUDE.md
 ├── public/            index.html + home.css (the grid), viz.css (the shell), <slug>/ pages, generated data/<slug>/ and js/
 └── docs/              specs and plans; the design spec is the contract
-    └── CONTEXT.md
+    └── CLAUDE.md
 ```
 
 ## Routing table
@@ -26,18 +26,18 @@ viz/
 | Task | Workspace | Start with | Skip |
 |---|---|---|---|
 | Why does it work this way? | `docs/` | `superpowers/specs/2026-09-24-viz-showcase-design.md` (the gallery), `2026-09-13-allstar-shots-design.md` (shots) | `src/`, the specs explain the code |
-| Change what the court or table shows | `src/` | `CONTEXT.md`, then `src/web/shots/lib/` for math, `src/web/shots/` for DOM | `scripts/` |
+| Change what the court or table shows | `src/` | `CLAUDE.md`, then `src/web/shots/lib/` for math, `src/web/shots/` for DOM | `scripts/` |
 | Colours, hex size, thresholds | `src/` | `src/web/shots/config.ts` | everything else |
 | Change the tornado map | `src/` | `src/web/tornadoes/config.ts`, then `src/web/tornadoes/lib/` | `scripts/` |
 | Change the quake globe | `src/` | `src/web/quakes/config.ts`, then `src/web/quakes/lib/` | `scripts/` |
 | Change the scoring race | `src/` | `src/web/scoring/config.ts`, then `src/web/scoring/lib/race.ts` | `scripts/` |
 | Change the flight map | `src/` | `src/web/flights/config.ts`, then `src/web/flights/lib/` | `scripts/` |
-| Add a player or refresh the data | `scripts/` | `CONTEXT.md`, then `scripts/shots/roster.json` (tornadoes: `pnpm data:fetch:tornadoes`; quakes: `pnpm data:fetch:quakes`; scoring: `pnpm data:fetch:scoring`; flights: README "Flights", then `pnpm data:fetch:flights <segments> <coords>`) | `src/`, nothing there knows player names |
+| Add a player or refresh the data | `scripts/` | `CLAUDE.md`, then `scripts/shots/roster.json` (tornadoes: `pnpm data:fetch:tornadoes`; quakes: `pnpm data:fetch:quakes`; scoring: `pnpm data:fetch:scoring`; flights: README "Flights", then `pnpm data:fetch:flights <segments> <coords>`) | `src/`, nothing there knows player names |
 | Data file shape | `docs/` | spec §5 | guessing from `public/data/shots/` |
-| Deploy | `src/` | `CONTEXT.md` deploy section | — |
-| Add a showcase | `src/` | `src/web/shell/registry.ts`, then `src/CONTEXT.md` | the other showcases' folders |
+| Deploy | `src/` | `CLAUDE.md` deploy section | — |
+| Add a showcase | `src/` | `src/web/shell/registry.ts`, then `src/CLAUDE.md` | the other showcases' folders |
 | Pick up where the last session stopped | `docs/` | the newest `docs/handoff-*.md` | everything else until it is read |
-| Planning a new feature | `docs/` | `CONTEXT.md` | writing code first |
+| Planning a new feature | `docs/` | `CLAUDE.md` | writing code first |
 
 ## Naming conventions
 
